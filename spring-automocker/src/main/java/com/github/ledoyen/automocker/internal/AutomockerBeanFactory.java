@@ -1,7 +1,10 @@
 package com.github.ledoyen.automocker.internal;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -20,13 +23,13 @@ public class AutomockerBeanFactory extends DefaultListableBeanFactory {
 
 	@Override
 	public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
-		// System.out.println(beanName);
+		Optional.ofNullable(BeanDefinitions.extractClass(beanDefinition)).flatMap(definitionClass -> configuration.getModifier(definitionClass))
+				.ifPresent(modifier -> modifier._2().modify(modifier._1(), (AbstractBeanDefinition) beanDefinition));
 		super.registerBeanDefinition(beanName, beanDefinition);
 	}
 
 	@Override
 	public void registerSingleton(String beanName, Object singletonObject) throws IllegalStateException {
-		// System.out.println(beanName);
 		if (ConfigurableEnvironment.class.isAssignableFrom(singletonObject.getClass())) {
 			super.registerSingleton(beanName, new AutomockerEnvironment((ConfigurableEnvironment) singletonObject));
 		} else {
@@ -38,11 +41,11 @@ public class AutomockerBeanFactory extends DefaultListableBeanFactory {
 		// TODO change by configuration and @ReplaceBeanPostProcessor
 		try {
 			Class<?> clazz = Class.forName("org.springframework.context.support.ApplicationContextAwareProcessor");
-			if (clazz.isAssignableFrom(beanPostProcessor.getClass())) {
-				super.addBeanPostProcessor(new AutomockerApplicationContextAwareProcessor(applicationContext));
-			} else {
-				super.addBeanPostProcessor(beanPostProcessor);
-			}
+			// if (clazz.isAssignableFrom(beanPostProcessor.getClass())) {
+			// super.addBeanPostProcessor(new AutomockerApplicationContextAwareProcessor(applicationContext));
+			// } else {
+			super.addBeanPostProcessor(beanPostProcessor);
+			// }
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}

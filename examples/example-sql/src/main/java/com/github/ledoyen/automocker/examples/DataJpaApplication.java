@@ -8,10 +8,10 @@ import com.github.ledoyen.automocker.examples.repository.Customer;
 import com.github.ledoyen.automocker.examples.repository.CustomerRepository;
 
 @SpringBootApplication
-public class DemoApplication {
+public class DataJpaApplication {
 
 	public static void main(String[] args) {
-		try (ConfigurableApplicationContext context = SpringApplication.run(DemoApplication.class, args)) {
+		try (ConfigurableApplicationContext context = SpringApplication.run(DataJpaApplication.class, args)) {
 			CustomerRepository repository = context.getBean(CustomerRepository.class);
 
 			Customer cust1 = new Customer("Scarlett", "Johansson");

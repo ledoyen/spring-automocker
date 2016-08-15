@@ -26,7 +26,7 @@
 
 		<dependency>
 			<groupId>com.github.ledoyen.automocker</groupId>
-			<artifactId>automocker</artifactId>
+			<artifactId>spring-automocker</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import com.github.ledoyen.automocker.BeanDefinitionModifier;
 import com.github.ledoyen.automocker.Need;
 
-@Need("org.h2.jdbcx.JdbcConnectionPool")
+@Need(classname = "org.h2.jdbcx.JdbcConnectionPool", jar = "h2")
 public class H2DatasourceBeanDefinitionModifier implements BeanDefinitionModifier {
 
 	@Override

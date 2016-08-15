@@ -33,7 +33,7 @@ public class SpringAutomockerJUnit4ClassRunner extends SpringJUnit4ClassRunner {
 
 			@Override
 			protected MergedContextConfiguration processMergedContextConfiguration(MergedContextConfiguration mergedConfig) {
-				return new AutomockerMergedContextConfiguration(mergedConfig, AutomockerConfiguration.readFrom(clazz));
+				return new AutomockerMergedContextConfiguration(mergedConfig, new AutomockerAnnotationConfigurationReader().readFrom(clazz));
 			}
 		};
 		testContextBootstrapper.setBootstrapContext(new DefaultBootstrapContext(clazz, new DefaultCacheAwareContextLoaderDelegate()));

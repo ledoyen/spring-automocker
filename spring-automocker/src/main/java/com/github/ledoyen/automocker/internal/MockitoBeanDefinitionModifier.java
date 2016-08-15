@@ -8,12 +8,13 @@ import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import com.github.ledoyen.automocker.BeanDefinitionModifier;
 import com.github.ledoyen.automocker.Need;
 
-@Need("org.mockito.Mockito")
+@Need(classname = "org.mockito.Mockito", jar = { "mockito-core", "mockito-all" })
 public class MockitoBeanDefinitionModifier implements BeanDefinitionModifier {
 
 	@Override
 	public BeanDefinition modify(Class<?> target, AbstractBeanDefinition definition) {
 		definition.setBeanClass(Mockito.class);
+
 		definition.setFactoryMethodName("mock");
 		definition.setFactoryBeanName(null);
 		definition.setPropertyValues(null);
