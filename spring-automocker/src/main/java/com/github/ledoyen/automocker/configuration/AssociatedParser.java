@@ -1,4 +1,4 @@
-package com.github.ledoyen.automocker;
+package com.github.ledoyen.automocker.configuration;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

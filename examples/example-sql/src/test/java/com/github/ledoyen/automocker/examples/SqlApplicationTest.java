@@ -21,7 +21,7 @@ public class SqlApplicationTest {
 	private CustomerRepository repo;
 
 	@Test
-	public void fails_as_h2_is_not_in_classpath() throws InitializationError {
+	public void repository_is_available_and_consistent() throws InitializationError {
 		Assertions.assertThat(repo.count()).isEqualTo(0L);
 		repo.save(new Customer("Scarlett", "Johansson"));
 		Assertions.assertThat(repo.count()).isEqualTo(1L);

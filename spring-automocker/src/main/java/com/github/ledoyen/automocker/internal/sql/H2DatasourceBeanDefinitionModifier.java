@@ -18,5 +18,4 @@ public class H2DatasourceBeanDefinitionModifier implements BeanDefinitionModifie
 		definition.setConstructorArgumentValues(null);
 		return definition;
 	}
-
 }

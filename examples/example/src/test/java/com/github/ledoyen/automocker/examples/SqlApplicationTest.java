@@ -21,7 +21,7 @@ public class SqlApplicationTest {
 			Assertions.assertThat(e)
 					.hasMessage("Automocker @com.github.ledoyen.automocker.ModifyBeanDefinition"
 							+ "(beanDefinitionModifier=class com.github.ledoyen.automocker.internal.sql.H2DatasourceBeanDefinitionModifier,"
-							+ " value=interface javax.sql.DataSource) is missing class [org.h2.jdbcx.JdbcConnectionPool], make sure h2.jar is in the test classpath");
+							+ " targetClass=interface javax.sql.DataSource) is missing class [org.h2.jdbcx.JdbcConnectionPool], make sure h2.jar is in the test classpath");
 		}
 	}
 }

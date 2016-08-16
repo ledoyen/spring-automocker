@@ -2,7 +2,7 @@ package com.github.ledoyen.automocker.internal;
 
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.support.RootBeanDefinition;
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.core.type.MethodMetadata;
 import org.springframework.util.ClassUtils;
 
@@ -14,8 +14,8 @@ public abstract class BeanDefinitions {
 	}
 
 	public static Class<?> extractClass(BeanDefinition beanDefinition) {
-		if (beanDefinition instanceof RootBeanDefinition) {
-			RootBeanDefinition abd = (RootBeanDefinition) beanDefinition;
+		if (beanDefinition instanceof AbstractBeanDefinition) {
+			AbstractBeanDefinition abd = (AbstractBeanDefinition) beanDefinition;
 			try {
 				Class<?> beanClazz = abd.resolveBeanClass(BEAN_CLASS_LOADER);
 				MethodMetadata factoryMetadata = getMethodMetadata(beanDefinition);

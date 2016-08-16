@@ -16,6 +16,8 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.context.support.DefaultBootstrapContext;
 import org.springframework.test.context.support.DefaultTestContextBootstrapper;
 
+import com.github.ledoyen.automocker.configuration.AutomockerAnnotationConfigurationReader;
+import com.github.ledoyen.automocker.configuration.AutomockerConfiguration;
 import com.github.ledoyen.automocker.internal.AutomockerBeanFactory;
 
 public class SpringAutomockerJUnit4ClassRunner extends SpringJUnit4ClassRunner {

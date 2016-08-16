@@ -8,6 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import com.github.ledoyen.automocker.extension.MockDatasource;
+import com.github.ledoyen.automocker.extension.MockSpringWeb;
 import com.github.ledoyen.automocker.extension.MockPropertySource;
 
 @Target(ElementType.TYPE)
@@ -15,9 +16,9 @@ import com.github.ledoyen.automocker.extension.MockPropertySource;
 @Documented
 @Inherited
 
-@Automocker
 @MockPropertySource
 @MockDatasource
+@MockSpringWeb
 public @interface SpringAutomocker {
 
 }

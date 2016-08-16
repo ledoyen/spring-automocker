@@ -1,4 +1,4 @@
-package com.github.ledoyen.automocker;
+package com.github.ledoyen.automocker.configuration;
 
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
@@ -7,15 +7,18 @@ import java.util.function.Function;
 
 import org.springframework.beans.BeanUtils;
 
+import com.github.ledoyen.automocker.ModifyBeanDefinition;
+import com.github.ledoyen.automocker.ModifyBeanPostProcessor;
 import com.github.ledoyen.automocker.internal.AnnotationConfigUtils;
 import com.github.ledoyen.automocker.internal.AnnotationParser;
 
 public class AutomockerAnnotationConfigurationReader {
 
-	private final Map<Class<? extends Annotation>, Function<? extends Annotation, Class<?>>> annotationsAnsKeyExtractors = new HashMap<>();
+	private final Map<Class<? extends Annotation>, Function<? extends Annotation, Object>> annotationsAnsKeyExtractors = new HashMap<>();
 
 	public AutomockerAnnotationConfigurationReader() {
-		annotationsAnsKeyExtractors.put(ModifyBeanDefinition.class, (Function<ModifyBeanDefinition, Class<?>>) ModifyBeanDefinition::value);
+		annotationsAnsKeyExtractors.put(ModifyBeanDefinition.class, (Function<ModifyBeanDefinition, Object>) ModifyBeanDefinition::targetClass);
+		annotationsAnsKeyExtractors.put(ModifyBeanPostProcessor.class, (Function<ModifyBeanPostProcessor, Object>) ModifyBeanPostProcessor::targetClass);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -28,8 +31,8 @@ public class AutomockerAnnotationConfigurationReader {
 			}
 			Class<? extends AnnotationParser<?>> parserClass = parserDescription.value();
 			AnnotationParser<A> parser = (AnnotationParser<A>) BeanUtils.instantiate(parserClass);
-			Map<Class<?>, A> collectedAnnotationsByTarget = AnnotationConfigUtils.collectAnnotations(clazz, (Class<A>) annotationType, (Function<A, Class<?>>) keyExtractor);
-			collectedAnnotationsByTarget.forEach((targetClass, annotation) -> {
+			Map<Object, A> collectedAnnotationsByTarget = AnnotationConfigUtils.collectAnnotations(clazz, (Class<A>) annotationType, (Function<A, Object>) keyExtractor);
+			collectedAnnotationsByTarget.values().forEach(annotation -> {
 				parser.parse(annotation, configuration);
 			});
 		});

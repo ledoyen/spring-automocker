@@ -7,8 +7,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.github.ledoyen.automocker.configuration.AssociatedParser;
 import com.github.ledoyen.automocker.internal.MockitoBeanDefinitionModifier;
-import com.github.ledoyen.automocker.internal.ModifyBeanDefinitionParser;
+import com.github.ledoyen.automocker.internal.parser.ModifyBeanDefinitionParser;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -17,7 +18,7 @@ import com.github.ledoyen.automocker.internal.ModifyBeanDefinitionParser;
 @AssociatedParser(ModifyBeanDefinitionParser.class)
 public @interface ModifyBeanDefinition {
 
-	Class<?> value();
+	Class<?> targetClass();
 
 	Class<? extends BeanDefinitionModifier> beanDefinitionModifier() default MockitoBeanDefinitionModifier.class;
 

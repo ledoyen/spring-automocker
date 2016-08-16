@@ -6,15 +6,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import javax.sql.DataSource;
+import org.springframework.stereotype.Controller;
 
 import com.github.ledoyen.automocker.ModifyBeanDefinition;
-import com.github.ledoyen.automocker.internal.sql.H2DatasourceBeanDefinitionModifier;
+import com.github.ledoyen.automocker.internal.mvc.MvcControllerMocker;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@ModifyBeanDefinition(targetClass = DataSource.class, beanDefinitionModifier = H2DatasourceBeanDefinitionModifier.class)
-public @interface MockDatasource {
+@ModifyBeanDefinition(targetClass = Controller.class, beanDefinitionModifier = MvcControllerMocker.class)
+public @interface MockSpringWeb {
 
 }
