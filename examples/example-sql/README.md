@@ -4,7 +4,7 @@
 Refer to [DataJpaApplicationTest](src/test/java/com/github/ledoyen/automocker/examples/DataJpaApplicationTest.java)
 
 ### Data-JPA application with multiple datasources
-Refer to [MultipleDatasourcesApplication](src/test/java/com/github/ledoyen/automocker/examples/MultipleDatasourcesApplication.java)
+Refer to [MultipleDatasourcesTest](src/test/java/com/github/ledoyen/automocker/examples/MultipleDatasourcesTest.java)
 
 To access `DataSource` directly, inject it by its Id
 ```java
