@@ -1,4 +1,4 @@
-package com.github.ledoyen.automocker.examples.repository;
+package com.github.ledoyen.automocker.examples.simplieds.repository;
 
 import java.util.List;
 

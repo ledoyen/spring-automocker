@@ -12,7 +12,7 @@ public class MvcControllerMocker implements BeanDefinitionModifier {
 	private boolean anyControllerDeclared = false;
 
 	@Override
-	public BeanDefinition modify(Class<?> target, AbstractBeanDefinition definition) {
+	public BeanDefinition modify(Class<?> target, String beanName, AbstractBeanDefinition definition) {
 		anyControllerDeclared = true;
 		return definition;
 	}

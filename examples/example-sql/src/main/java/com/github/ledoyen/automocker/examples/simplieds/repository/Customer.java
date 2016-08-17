@@ -1,4 +1,4 @@
-package com.github.ledoyen.automocker.examples.repository;
+package com.github.ledoyen.automocker.examples.simplieds.repository;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

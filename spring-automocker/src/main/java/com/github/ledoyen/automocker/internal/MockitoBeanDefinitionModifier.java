@@ -12,9 +12,8 @@ import com.github.ledoyen.automocker.Need;
 public class MockitoBeanDefinitionModifier implements BeanDefinitionModifier {
 
 	@Override
-	public BeanDefinition modify(Class<?> target, AbstractBeanDefinition definition) {
+	public BeanDefinition modify(Class<?> target, String beanName, AbstractBeanDefinition definition) {
 		definition.setBeanClass(Mockito.class);
-
 		definition.setFactoryMethodName("mock");
 		definition.setFactoryBeanName(null);
 		definition.setPropertyValues(null);

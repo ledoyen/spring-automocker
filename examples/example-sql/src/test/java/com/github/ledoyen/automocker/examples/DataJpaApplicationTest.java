@@ -9,13 +9,14 @@ import org.springframework.test.context.ContextConfiguration;
 
 import com.github.ledoyen.automocker.SpringAutomocker;
 import com.github.ledoyen.automocker.SpringAutomockerJUnit4ClassRunner;
-import com.github.ledoyen.automocker.examples.repository.Customer;
-import com.github.ledoyen.automocker.examples.repository.CustomerRepository;
+import com.github.ledoyen.automocker.examples.simplieds.DataJpaApplication;
+import com.github.ledoyen.automocker.examples.simplieds.repository.Customer;
+import com.github.ledoyen.automocker.examples.simplieds.repository.CustomerRepository;
 
 @RunWith(SpringAutomockerJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DataJpaApplication.class)
 @SpringAutomocker
-public class SqlApplicationTest {
+public class DataJpaApplicationTest {
 
 	@Autowired
 	private CustomerRepository repo;

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
 public interface BeanDefinitionModifier {
 
-	BeanDefinition modify(Class<?> target, AbstractBeanDefinition definition);
+	BeanDefinition modify(Class<?> target, String beanName, AbstractBeanDefinition definition);
 
 	default void afterModifications(DefaultListableBeanFactory beanFactory) {
 	}

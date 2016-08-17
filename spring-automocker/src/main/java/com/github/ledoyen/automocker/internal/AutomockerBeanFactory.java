@@ -33,7 +33,7 @@ public class AutomockerBeanFactory extends DefaultListableBeanFactory {
 		if (!freezeStarted) {
 			Optional.ofNullable(BeanDefinitions.extractClass(beanDefinition)).flatMap(definitionClass -> configuration.getModifier(definitionClass)).ifPresent(modifier -> {
 				modifiers.add(modifier._2());
-				modifier._2().modify(modifier._1(), (AbstractBeanDefinition) beanDefinition);
+				modifier._2().modify(modifier._1(), beanName, (AbstractBeanDefinition) beanDefinition);
 			});
 		}
 		super.registerBeanDefinition(beanName, beanDefinition);

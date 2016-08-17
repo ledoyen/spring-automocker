@@ -1,11 +1,11 @@
-package com.github.ledoyen.automocker.examples;
+package com.github.ledoyen.automocker.examples.simplieds;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import com.github.ledoyen.automocker.examples.repository.Customer;
-import com.github.ledoyen.automocker.examples.repository.CustomerRepository;
+import com.github.ledoyen.automocker.examples.simplieds.repository.Customer;
+import com.github.ledoyen.automocker.examples.simplieds.repository.CustomerRepository;
 
 @SpringBootApplication
 public class DataJpaApplication {
