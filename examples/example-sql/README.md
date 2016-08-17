@@ -1,10 +1,10 @@
 # SQL Examples
 
 ### Data-JPA application
-Refer to [DataJpaApplicationTest](example-sql/src/test/java/com/github/ledoyen/automocker/examples/DataJpaApplicationTest.java)
+Refer to [DataJpaApplicationTest](src/test/java/com/github/ledoyen/automocker/examples/DataJpaApplicationTest.java)
 
 ### Data-JPA application with multiple datasources
-Refer to [MultipleDatasourcesApplication](example-sql/src/test/java/com/github/ledoyen/automocker/examples/MultipleDatasourcesApplication.java)
+Refer to [MultipleDatasourcesApplication](src/test/java/com/github/ledoyen/automocker/examples/MultipleDatasourcesApplication.java)
 
 To access `DataSource` directly, inject it by its Id
 ```java
