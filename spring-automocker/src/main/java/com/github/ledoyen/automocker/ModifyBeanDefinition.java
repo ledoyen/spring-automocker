@@ -18,7 +18,9 @@ import com.github.ledoyen.automocker.internal.parser.ModifyBeanDefinitionParser;
 @AssociatedParser(ModifyBeanDefinitionParser.class)
 public @interface ModifyBeanDefinition {
 
-	Class<?> targetClass();
+	Class<?> targetClass() default Object.class;
+
+	String targetClassName() default "";
 
 	Class<? extends BeanDefinitionModifier> beanDefinitionModifier() default MockitoBeanDefinitionModifier.class;
 
@@ -28,4 +30,5 @@ public @interface ModifyBeanDefinition {
 	@interface ModifyBeanDefinitions {
 		ModifyBeanDefinition[] value();
 	}
+
 }

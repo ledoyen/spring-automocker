@@ -22,7 +22,7 @@
 		<module>examples/example</module>
 		<module>examples/example-sql</module>
 		<module>examples/example-mvc</module>
-		<module>examples/example-multiple-datasources</module>
+		<module>examples/example-jms</module>
 	</modules>
 
 	<scm>

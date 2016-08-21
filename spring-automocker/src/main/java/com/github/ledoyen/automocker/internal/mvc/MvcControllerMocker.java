@@ -1,6 +1,5 @@
 package com.github.ledoyen.automocker.internal.mvc;
 
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.RootBeanDefinition;
@@ -12,9 +11,8 @@ public class MvcControllerMocker implements BeanDefinitionModifier {
 	private boolean anyControllerDeclared = false;
 
 	@Override
-	public BeanDefinition modify(Class<?> target, String beanName, AbstractBeanDefinition definition) {
+	public void modify(Class<?> target, String beanName, AbstractBeanDefinition definition) {
 		anyControllerDeclared = true;
-		return definition;
 	}
 
 	public void afterModifications(DefaultListableBeanFactory beanFactory) {

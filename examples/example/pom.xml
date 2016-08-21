@@ -12,7 +12,8 @@
 
 	<groupId>com.github.ledoyen.automocker.examples</groupId>
 	<artifactId>example</artifactId>
-	<name>Spring-Automocker Example &amp; IT</name>
+	<name>NoD Example &amp; IT</name>
+	<description>No dependencies Integration Tests</description>
 
 	<dependencies>
 		<dependency>
@@ -50,5 +51,4 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	<url>AutoMocker SQL Example and Integration Test</url>
 </project>

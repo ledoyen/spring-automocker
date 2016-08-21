@@ -60,11 +60,11 @@ public class AutomockerBeanFactory extends DefaultListableBeanFactory {
 		// TODO change by configuration and @ReplaceBeanPostProcessor
 		try {
 			Class<?> clazz = Class.forName("org.springframework.context.support.ApplicationContextAwareProcessor");
-			// if (clazz.isAssignableFrom(beanPostProcessor.getClass())) {
-			// super.addBeanPostProcessor(new AutomockerApplicationContextAwareProcessor(applicationContext));
-			// } else {
-			super.addBeanPostProcessor(beanPostProcessor);
-			// }
+			if (clazz.isAssignableFrom(beanPostProcessor.getClass())) {
+				super.addBeanPostProcessor(new AutomockerApplicationContextAwareProcessor(applicationContext));
+			} else {
+				super.addBeanPostProcessor(beanPostProcessor);
+			}
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}

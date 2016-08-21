@@ -16,16 +16,18 @@ public class AnnotationConfigUtils {
 		return collected;
 	}
 
-	private static <K, A extends Annotation> void collectAnnotations(Class<?> clazz, Class<A> annotationType, Map<K, A> collected, Function<A, K> keyExtravtor,
+	private static <K, A extends Annotation> void collectAnnotations(Class<?> clazz, Class<A> annotationType, Map<K, A> collected, Function<A, K> keyExtractor,
 			Set<Class<?>> visited) {
 		if (visited.add(clazz)) {
 			for (Annotation annotation : clazz.getAnnotations()) {
 				Class<? extends Annotation> annClass = annotation.annotationType();
 				if (!annClass.getName().startsWith("java") && !annClass.equals(annotationType)) {
-					collectAnnotations(annClass, annotationType, collected, keyExtravtor, visited);
+					collectAnnotations(annClass, annotationType, collected, keyExtractor, visited);
 				}
 			}
-			Arrays.asList(clazz.getAnnotationsByType(annotationType)).forEach(a -> collected.putIfAbsent(keyExtravtor.apply(a), a));
+			Arrays.asList(clazz.getAnnotationsByType(annotationType)).forEach(a -> {
+				collected.putIfAbsent(keyExtractor.apply(a), a);
+			});
 		}
 	}
 }

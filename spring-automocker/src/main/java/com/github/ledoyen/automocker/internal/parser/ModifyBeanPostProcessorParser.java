@@ -11,7 +11,6 @@ public class ModifyBeanPostProcessorParser implements AnnotationParser<ModifyBea
 
 	@Override
 	public void parse(ModifyBeanPostProcessor annotation, AutomockerConfiguration configuration) {
-		checkNeededClassesAreAvailable(annotation, annotation.beanPostProcessorModifier());
 		try {
 			configuration.addPostProcessorModification(Class.forName(annotation.targetClass()), BeanUtils.instantiate(annotation.beanPostProcessorModifier()));
 		} catch (BeanInstantiationException | ClassNotFoundException e) {

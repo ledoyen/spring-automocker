@@ -11,25 +11,23 @@
 	</parent>
 
 	<groupId>com.github.ledoyen.automocker.examples</groupId>
-	<artifactId>example-sql</artifactId>
-	<name>SQL Example &amp; IT</name>
-	<description>AutoMocker SQL Example and Integration Test</description>
+	<artifactId>example-jms</artifactId>
+	<name>JMS Example &amp; IT</name>
+	<description>AutoMocker JMS Example and Integration Test</description>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.16.10</version>
-			<scope>provided</scope>
-		</dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-broker</artifactId>
+        </dependency>
 
 		<dependency>
 			<groupId>com.github.ledoyen.automocker</groupId>
@@ -46,11 +44,6 @@
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
 			<version>3.4.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

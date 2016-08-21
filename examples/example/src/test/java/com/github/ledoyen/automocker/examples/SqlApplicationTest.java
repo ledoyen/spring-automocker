@@ -1,7 +1,14 @@
 package com.github.ledoyen.automocker.examples;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import org.junit.runner.Runner;
+import org.junit.runner.notification.Failure;
+import org.junit.runner.notification.RunListener;
+import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.InitializationError;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -14,14 +21,17 @@ public class SqlApplicationTest {
 
 	@Test
 	public void fails_as_h2_is_not_in_classpath() throws InitializationError {
-		try {
-			new SpringAutomockerJUnit4ClassRunner(this.getClass());
-			Assertions.fail("Exception is expected");
-		} catch (IllegalStateException e) {
-			Assertions.assertThat(e)
-					.hasMessage("Automocker @com.github.ledoyen.automocker.ModifyBeanDefinition"
-							+ "(beanDefinitionModifier=class com.github.ledoyen.automocker.internal.sql.H2DatasourceBeanDefinitionModifier,"
-							+ " targetClass=interface javax.sql.DataSource) is missing class [org.h2.jdbcx.JdbcConnectionPool], make sure h2.jar is in the test classpath");
-		}
+		Runner runner = new SpringAutomockerJUnit4ClassRunner(this.getClass());
+		RunNotifier notifier = new RunNotifier();
+		List<Throwable> testFailures = new ArrayList<>();
+		notifier.addListener(new RunListener() {
+			public void testFailure(Failure failure) throws Exception {
+				testFailures.add(failure.getException());
+			}
+		});
+		runner.run(notifier);
+		Assertions.assertThat(testFailures).as("Test failures").hasSize(1);
+		Assertions.assertThat(testFailures.get(0))
+				.hasStackTraceContaining("Automocker is missing class [org.h2.jdbcx.JdbcConnectionPool] to handle [DataSource], make sure h2.jar is in the test classpath");
 	}
 }

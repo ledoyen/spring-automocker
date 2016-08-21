@@ -17,7 +17,13 @@ public class AutomockerAnnotationConfigurationReader {
 	private final Map<Class<? extends Annotation>, Function<? extends Annotation, Object>> annotationsAnsKeyExtractors = new HashMap<>();
 
 	public AutomockerAnnotationConfigurationReader() {
-		annotationsAnsKeyExtractors.put(ModifyBeanDefinition.class, (Function<ModifyBeanDefinition, Object>) ModifyBeanDefinition::targetClass);
+		annotationsAnsKeyExtractors.put(ModifyBeanDefinition.class, (Function<ModifyBeanDefinition, Object>) (modifyBeanDefinition) -> {
+			if (Object.class.equals(modifyBeanDefinition.targetClass())) {
+				return modifyBeanDefinition.targetClassName();
+			} else {
+				return modifyBeanDefinition.targetClass();
+			}
+		});
 		annotationsAnsKeyExtractors.put(ModifyBeanPostProcessor.class, (Function<ModifyBeanPostProcessor, Object>) ModifyBeanPostProcessor::targetClass);
 	}
 

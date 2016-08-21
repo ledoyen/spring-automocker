@@ -2,7 +2,6 @@ package com.github.ledoyen.automocker.internal.sql;
 
 import org.h2.jdbcx.JdbcDataSource;
 import org.springframework.beans.MutablePropertyValues;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 
 import com.github.ledoyen.automocker.BeanDefinitionModifier;
@@ -12,7 +11,7 @@ import com.github.ledoyen.automocker.Need;
 public class H2DatasourceBeanDefinitionModifier implements BeanDefinitionModifier {
 
 	@Override
-	public BeanDefinition modify(Class<?> target, String beanName, AbstractBeanDefinition definition) {
+	public void modify(Class<?> target, String beanName, AbstractBeanDefinition definition) {
 		definition.setBeanClass(JdbcDataSource.class);
 		definition.setFactoryBeanName(null);
 		definition.setFactoryMethodName(null);
@@ -20,6 +19,5 @@ public class H2DatasourceBeanDefinitionModifier implements BeanDefinitionModifie
 		mpv.add("url", "jdbc:h2:mem:" + beanName + ";DB_CLOSE_DELAY=-1");
 		definition.setPropertyValues(mpv);
 		definition.setConstructorArgumentValues(null);
-		return definition;
 	}
 }
