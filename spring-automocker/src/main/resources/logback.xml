@@ -11,6 +11,7 @@
 	<logger name="org.springframework" level="WARN" />
 	<logger name="org.hibernate" level="WARN" />
 	<logger name="org.jboss.logging" level="WARN" />
+	<logger name="com.mockrunner" level="WARN" />
 
 	<!-- Internal -->
 	<logger name="com.github.ledoyen.automocker.SpringAutomockerJUnit4ClassRunner" level="WARN" />

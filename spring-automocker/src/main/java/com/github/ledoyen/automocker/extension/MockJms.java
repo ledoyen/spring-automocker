@@ -7,15 +7,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import com.github.ledoyen.automocker.ModifyBeanDefinition;
-import com.github.ledoyen.automocker.internal.jms.JmsListenerContainerFactoryModifier;
-import com.github.ledoyen.automocker.internal.jms.JmsTemplateModifier;
+import com.github.ledoyen.automocker.internal.jms.ConnectionFactoryModifier;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-// TODO @Reject("org.springframework.boot.autoconfigure.jms.ConnectionFactory")
-@ModifyBeanDefinition(targetClassName = "org.springframework.jms.config.JmsListenerContainerFactory", beanDefinitionModifier = JmsListenerContainerFactoryModifier.class)
-@ModifyBeanDefinition(targetClassName = "org.springframework.jms.core.JmsTemplate", beanDefinitionModifier = JmsTemplateModifier.class)
+@ModifyBeanDefinition(targetClassName = "javax.jms.ConnectionFactory", beanDefinitionModifier = ConnectionFactoryModifier.class)
 public @interface MockJms {
+	// TODO see org.springframework.boot.autoconfigure.jms.JmsAutoConfiguration and related auto classes
 
 }
