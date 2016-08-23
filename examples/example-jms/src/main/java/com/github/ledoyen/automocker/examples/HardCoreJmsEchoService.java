@@ -13,12 +13,12 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JmsEchoService {
+public class HardCoreJmsEchoService {
 
 	@Autowired
 	private JmsTemplate jmsTemplate;
 
-	@JmsListener(destination = "echo-service", containerFactory = "myJmsContainerFactory")
+	@JmsListener(destination = "hardcore-echo-service", containerFactory = "jmsListenerContainerFactory")
 	public void receiveMessage(@Payload String message, @Header(name = "reply-to") String replyTo) {
 		System.out.println("Received <" + message + ">");
 

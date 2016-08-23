@@ -21,7 +21,7 @@ public class AutomockerBeanFactory extends DefaultListableBeanFactory {
 
 	private boolean freezeStarted = false;
 
-	private final Set<BeanDefinitionModifier> modifiers = new HashSet<>();
+	private final Set<BeanDefinitionModifier> matchedModifiers = new HashSet<>();
 
 	public AutomockerBeanFactory(AutomockerConfiguration configuration, ConfigurableApplicationContext context) {
 		this.configuration = configuration;
@@ -32,8 +32,8 @@ public class AutomockerBeanFactory extends DefaultListableBeanFactory {
 	public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
 		if (!freezeStarted) {
 			Optional.ofNullable(BeanDefinitions.extractClass(beanDefinition)).flatMap(definitionClass -> configuration.getModifier(definitionClass)).ifPresent(modifier -> {
-				modifiers.add(modifier._2());
-				modifier._2().modify(modifier._1(), beanName, (AbstractBeanDefinition) beanDefinition);
+				matchedModifiers.add(modifier._2());
+				modifier._2().modify(modifier._1(), beanName, (AbstractBeanDefinition) beanDefinition, (name, def) -> super.registerBeanDefinition(name, def));
 			});
 		}
 		super.registerBeanDefinition(beanName, beanDefinition);
@@ -51,7 +51,7 @@ public class AutomockerBeanFactory extends DefaultListableBeanFactory {
 	@Override
 	public void freezeConfiguration() {
 		freezeStarted = true;
-		modifiers.forEach(modifier -> modifier.afterModifications(this));
+		matchedModifiers.forEach(modifier -> modifier.afterModifications(this));
 
 		super.freezeConfiguration();
 	}

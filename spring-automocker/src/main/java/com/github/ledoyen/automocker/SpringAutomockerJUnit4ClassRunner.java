@@ -1,6 +1,9 @@
 package com.github.ledoyen.automocker;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.runners.model.InitializationError;
 import org.springframework.beans.factory.BeanFactory;
@@ -19,6 +22,7 @@ import org.springframework.test.context.support.DefaultTestContextBootstrapper;
 import com.github.ledoyen.automocker.configuration.AutomockerAnnotationConfigurationReader;
 import com.github.ledoyen.automocker.configuration.AutomockerConfiguration;
 import com.github.ledoyen.automocker.internal.AutomockerBeanFactory;
+import com.github.ledoyen.automocker.internal.AutomockerTestExecutionListener;
 
 public class SpringAutomockerJUnit4ClassRunner extends SpringJUnit4ClassRunner {
 
@@ -36,6 +40,14 @@ public class SpringAutomockerJUnit4ClassRunner extends SpringJUnit4ClassRunner {
 			@Override
 			protected MergedContextConfiguration processMergedContextConfiguration(MergedContextConfiguration mergedConfig) {
 				return new AutomockerMergedContextConfiguration(mergedConfig, new AutomockerAnnotationConfigurationReader().readFrom(clazz));
+			}
+
+			@Override
+			protected List<String> getDefaultTestExecutionListenerClassNames() {
+				List<String> classes = new ArrayList<>();
+				classes.addAll(super.getDefaultTestExecutionListenerClassNames());
+				classes.add(AutomockerTestExecutionListener.class.getName());
+				return Collections.unmodifiableList(classes);
 			}
 		};
 		testContextBootstrapper.setBootstrapContext(new DefaultBootstrapContext(clazz, new DefaultCacheAwareContextLoaderDelegate()));

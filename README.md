@@ -7,8 +7,9 @@ The purpose of this project is to test functionalities of applications on real c
 
 Currently the project supports mocking of
 * `@PropertySource`
-* Spring-web by making available `MockMvc` [examples](examples/example-mvc/README.md)
-* `javax.sql.Datasource` [examples](examples/example-sql/README.md)
+* __Spring-web__ [example](examples/example-mvc/src/test/java/com/github/ledoyen/automocker/examples/MvcApplicationTest.java)
+* __JDBC__ [examples](examples/example-sql/README.md)
+* __JMS__ [example](examples/example-jms/src/test/java/com/github/ledoyen/automocker/examples/JmsApplicationTest.java)
 
 Use `SpringAutomockerJUnit4ClassRunner` in conjunction with `@SpringAutomocker`
 ```java

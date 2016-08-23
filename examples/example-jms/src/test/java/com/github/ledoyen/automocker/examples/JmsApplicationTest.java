@@ -1,24 +1,21 @@
 package com.github.ledoyen.automocker.examples;
 
+import javax.jms.InvalidDestinationException;
 import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Queue;
-import javax.jms.Session;
-import javax.jms.TextMessage;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
 import org.springframework.jms.listener.adapter.ListenerExecutionFailedException;
+import org.springframework.jms.listener.adapter.ReplyFailureException;
 import org.springframework.messaging.MessageHandlingException;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.github.ledoyen.automocker.SpringAutomocker;
 import com.github.ledoyen.automocker.SpringAutomockerJUnit4ClassRunner;
-import com.mockrunner.jms.DestinationManager;
+import com.github.ledoyen.automocker.jms.JmsMessageBuilder;
+import com.github.ledoyen.automocker.jms.JmsMock;
 
 @RunWith(SpringAutomockerJUnit4ClassRunner.class)
 @ContextConfiguration(classes = JmsApplication.class)
@@ -26,45 +23,40 @@ import com.mockrunner.jms.DestinationManager;
 public class JmsApplicationTest {
 
 	@Autowired
-	private JmsTemplate jmsTemplate;
-
-	@Autowired
-	private JmsErrorHandler errorHandler;
-
-	@Autowired
-	private DestinationManager mockDestinationManager;
+	private JmsMock jmsMock;
 
 	@Test
-	public void missing_header_throws_an_exception_cathed_by_error_handler() {
-		String messagePayload = "test message";
-		jmsTemplate.send("echo-service", new MessageCreator() {
-			@Override
-			public Message createMessage(Session session) throws JMSException {
-				return session.createTextMessage(messagePayload);
-			}
-		});
-		Assertions.assertThat(errorHandler.getLastCatched()).isPresent()
+	public void hardcore_missing_header_throws_an_exception_cathed_by_error_handler() {
+		jmsMock.sendText("hardcore-echo-service", "test message");
+
+		Assertions.assertThat(jmsMock.containerErrorHandler().getLastCatched()).isPresent()
 				.hasValueSatisfying(t -> Assertions.assertThat(t).isExactlyInstanceOf(ListenerExecutionFailedException.class)
 						.hasCauseExactlyInstanceOf(MessageHandlingException.class).hasStackTraceContaining("Missing header 'reply-to'"));
 	}
 
 	@Test
-	public void correct_message_is_sent_back_toreply_to_queue() throws JMSException {
+	public void hardcore_correct_message_is_sent_back_to_reply_to_queue() {
 		String messagePayload = "test message";
 		String responseQueueName = "response-queue";
-		jmsTemplate.send("echo-service", new MessageCreator() {
-			@Override
-			public Message createMessage(Session session) throws JMSException {
-				TextMessage message = session.createTextMessage(messagePayload);
-				message.setStringProperty("reply-to", responseQueueName);
-				return message;
-			}
-		});
+		jmsMock.sendText("hardcore-echo-service", messagePayload, "reply-to", responseQueueName);
+		jmsMock.assertThatQueue(responseQueueName).hasSize(1).extractingFirstMessage().hasText(messagePayload);
+	}
 
-		Queue responseQueue = mockDestinationManager.getQueue(responseQueueName);
+	@Test
+	public void simple_missing_header_throws_an_exception_cathed_by_error_handler() {
+		jmsMock.sendText("simple-echo-service", "test message");
 
-		TextMessage message = (TextMessage) jmsTemplate.receive(responseQueue);
+		Assertions.assertThat(jmsMock.containerErrorHandler().getLastCatched()).isPresent()
+				.hasValueSatisfying(t -> Assertions.assertThat(t).isExactlyInstanceOf(ReplyFailureException.class).hasCauseExactlyInstanceOf(InvalidDestinationException.class)
+						.hasStackTraceContaining("Request message does not contain reply-to destination"));
+	}
 
-		Assertions.assertThat(message.getText()).isEqualTo(messagePayload);
+	@Test
+	public void simple_correct_message_is_sent_back_to_reply_to_queue() throws JMSException {
+		String messagePayload = "test message";
+		String responseQueueName = "response-queue";
+
+		jmsMock.sendText("simple-echo-service", JmsMessageBuilder.newTextMessage(messagePayload).setJMSReplyTo(responseQueueName));
+		jmsMock.assertThatQueue(responseQueueName).hasSize(1).extractingFirstMessage().hasText(messagePayload);
 	}
 }
