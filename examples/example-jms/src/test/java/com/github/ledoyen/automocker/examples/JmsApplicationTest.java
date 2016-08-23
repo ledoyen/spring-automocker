@@ -26,7 +26,7 @@ public class JmsApplicationTest {
 	private JmsMock jmsMock;
 
 	@Test
-	public void hardcore_missing_header_throws_an_exception_cathed_by_error_handler() {
+	public void hardcore_missing_header_throws_an_exception_catched_by_error_handler() {
 		jmsMock.sendText("hardcore-echo-service", "test message");
 
 		Assertions.assertThat(jmsMock.containerErrorHandler().getLastCatched()).isPresent()
@@ -43,7 +43,7 @@ public class JmsApplicationTest {
 	}
 
 	@Test
-	public void simple_missing_header_throws_an_exception_cathed_by_error_handler() {
+	public void simple_missing_header_throws_an_exception_catched_by_error_handler() {
 		jmsMock.sendText("simple-echo-service", "test message");
 
 		Assertions.assertThat(jmsMock.containerErrorHandler().getLastCatched()).isPresent()
