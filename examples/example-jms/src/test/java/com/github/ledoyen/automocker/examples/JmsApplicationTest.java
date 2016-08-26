@@ -39,7 +39,7 @@ public class JmsApplicationTest {
 		String messagePayload = "test message";
 		String responseQueueName = "response-queue";
 		jmsMock.sendText("hardcore-echo-service", messagePayload, "reply-to", responseQueueName);
-		jmsMock.assertThatQueue(responseQueueName).hasSize(1).extractingFirstMessage().hasText(messagePayload);
+		jmsMock.assertThatDestination(responseQueueName).hasSize(1).consumingFirstMessage().hasText(messagePayload);
 	}
 
 	@Test
@@ -57,6 +57,6 @@ public class JmsApplicationTest {
 		String responseQueueName = "response-queue";
 
 		jmsMock.sendText("simple-echo-service", JmsMessageBuilder.newTextMessage(messagePayload).setJMSReplyTo(responseQueueName));
-		jmsMock.assertThatQueue(responseQueueName).hasSize(1).extractingFirstMessage().hasText(messagePayload);
+		jmsMock.assertThatDestination(responseQueueName).hasSize(1).consumingFirstMessage().hasText(messagePayload);
 	}
 }

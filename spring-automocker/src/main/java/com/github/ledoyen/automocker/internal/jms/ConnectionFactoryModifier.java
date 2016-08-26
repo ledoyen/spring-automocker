@@ -50,7 +50,10 @@ public class ConnectionFactoryModifier implements BeanDefinitionModifier {
 		AbstractBeanDefinition jmsMockBeanDefinition = new RootBeanDefinition(JmsMock.class);
 		ConstructorArgumentValues cav = new ConstructorArgumentValues();
 		cav.addGenericArgumentValue(new RuntimeBeanReference(modifiedBeanName));
+		cav.addGenericArgumentValue(new RuntimeBeanReference(DESTINATION_MANAGER_BEAN_NAME));
 		jmsMockBeanDefinition.setConstructorArgumentValues(cav);
 		beanFactory.registerBeanDefinition("jmsMock", jmsMockBeanDefinition);
+
+		beanFactory.registerBeanDefinition("destinationManagerLocator", new RootBeanDefinition(DestinationManagerResetter.class));
 	}
 }

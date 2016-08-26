@@ -7,32 +7,36 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.util.ErrorHandler;
 
 import com.github.ledoyen.automocker.internal.jms.ErrorHandlerMock;
-import com.github.ledoyen.automocker.jms.assertion.JmsQueueAssert;
+import com.github.ledoyen.automocker.jms.assertion.JmsDestinationAssert;
+import com.mockrunner.jms.DestinationManager;
 
 public final class JmsMock {
 
 	private final JmsTemplate jmsTemplate;
 
+	private final DestinationManager destinationManager;
+
 	private ErrorHandlerMock errorHandlerMock;
 
-	public JmsMock(ConnectionFactory connectionFactory) {
+	public JmsMock(ConnectionFactory connectionFactory, DestinationManager destinationManager) {
 		this.jmsTemplate = new JmsTemplate(connectionFactory);
+		this.destinationManager = destinationManager;
 	}
 
-	public void sendText(String queueName, String textPayload) {
-		sendText(queueName, JmsMessageBuilder.newTextMessage(textPayload));
+	public void sendText(String destinationName, String textPayload) {
+		sendText(destinationName, JmsMessageBuilder.newTextMessage(textPayload));
 	}
 
-	public void sendText(String queueName, String textPayload, Object... properties) {
-		sendText(queueName, JmsMessageBuilder.newTextMessage(textPayload).addProperties(properties));
+	public void sendText(String destinationName, String textPayload, Object... properties) {
+		sendText(destinationName, JmsMessageBuilder.newTextMessage(textPayload).addProperties(properties));
 	}
 
-	public void sendText(String queueName, JmsMessageBuilder messageBuilder) {
-		jmsTemplate.send(queueName, messageBuilder::toMessage);
+	public void sendText(String destinationName, JmsMessageBuilder messageBuilder) {
+		jmsTemplate.send(destinationName, messageBuilder::toMessage);
 	}
 
-	public JmsQueueAssert assertThatQueue(String queueName) {
-		return new JmsQueueAssert(jmsTemplate, queueName);
+	public JmsDestinationAssert assertThatDestination(String destinationName) {
+		return new JmsDestinationAssert(destinationManager, destinationName);
 	}
 
 	public ErrorHandlerMock containerErrorHandler() {
