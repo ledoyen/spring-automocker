@@ -25,13 +25,18 @@ public class JmsApplicationTest {
 	@Autowired
 	private JmsMock jmsMock;
 
+	@Autowired
+	private JmsErrorHandler applicativeErrorHandler;
+
 	@Test
 	public void hardcore_missing_header_throws_an_exception_catched_by_error_handler() {
+		applicativeErrorHandler.reset();
 		jmsMock.sendText("hardcore-echo-service", "test message");
 
 		Assertions.assertThat(jmsMock.containerErrorHandler().getLastCatched()).isPresent()
 				.hasValueSatisfying(t -> Assertions.assertThat(t).isExactlyInstanceOf(ListenerExecutionFailedException.class)
 						.hasCauseExactlyInstanceOf(MessageHandlingException.class).hasStackTraceContaining("Missing header 'reply-to'"));
+		Assertions.assertThat(applicativeErrorHandler.getErrorCount()).as("Applicative error counter").isEqualTo(1);
 	}
 
 	@Test
@@ -44,11 +49,13 @@ public class JmsApplicationTest {
 
 	@Test
 	public void simple_missing_header_throws_an_exception_catched_by_error_handler() {
+		applicativeErrorHandler.reset();
 		jmsMock.sendText("simple-echo-service", "test message");
 
 		Assertions.assertThat(jmsMock.containerErrorHandler().getLastCatched()).isPresent()
 				.hasValueSatisfying(t -> Assertions.assertThat(t).isExactlyInstanceOf(ReplyFailureException.class).hasCauseExactlyInstanceOf(InvalidDestinationException.class)
 						.hasStackTraceContaining("Request message does not contain reply-to destination"));
+		Assertions.assertThat(applicativeErrorHandler.getErrorCount()).as("Applicative error counter").isEqualTo(1);
 	}
 
 	@Test

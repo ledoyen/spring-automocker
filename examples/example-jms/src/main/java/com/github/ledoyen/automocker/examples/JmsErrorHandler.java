@@ -1,21 +1,23 @@
 package com.github.ledoyen.automocker.examples;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Component;
 import org.springframework.util.ErrorHandler;
 
 @Component
 public class JmsErrorHandler implements ErrorHandler {
 
-	private Throwable lastCatched = null;
+	private int errorCount = 0;
 
 	@Override
 	public void handleError(Throwable t) {
-		lastCatched = t;
+		errorCount++;
 	}
 
-	public Optional<Throwable> getLastCatched() {
-		return Optional.ofNullable(lastCatched);
+	public int getErrorCount() {
+		return errorCount;
+	}
+
+	public void reset() {
+		errorCount = 0;
 	}
 }
