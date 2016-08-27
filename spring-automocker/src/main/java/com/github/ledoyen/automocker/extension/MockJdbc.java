@@ -15,6 +15,6 @@ import com.github.ledoyen.automocker.internal.sql.H2DatasourceBeanDefinitionModi
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @ModifyBeanDefinition(targetClass = DataSource.class, beanDefinitionModifier = H2DatasourceBeanDefinitionModifier.class)
-public @interface MockDatasource {
+public @interface MockJdbc {
 
 }

@@ -32,3 +32,17 @@ public class MyApplicationTest {
 	}
 }
 ```
+
+## Mocking strategies
+### Spring-web
+There is nothing to mock here. However some things are nonetheless being taken care of
+* No **spring-boot** `EmbeddedWebApplicationContext` is used, so embedded web-server, if any, will not start
+* If any bean annotated with **spring-context** `@Controller` is present, **spring-test** `MockMvc` is configured and added to the test context
+
+### JDBC
+All beans implementing `javax.sql.DataSource` are replaced with distinct `org.h2.jdbcx.JdbcDataSource`
+
+### JMS
+* All beans implementing `javax.jms.ConnectionFactory` are replaced by a **mockrunner** `MockConnectionFactory`. Each factory is built with its own `DestinationManager`
+* If any bean implementing `javax.jms.ConnectionFactory` is present, a custom `JmsMock` is configured and added to the test context
+* If any bean implementing **spring-jms** `JmsListenerContainerFactory` is present, a wrapper is set around its `ErrorHandler` and can be accessed through `JmsMock`
