@@ -8,7 +8,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 
 import com.github.ledoyen.automocker.BeanDefinitionModifier;
-import com.github.ledoyen.automocker.Need;
+import com.github.ledoyen.automocker.configuration.Need;
 
 @Need(classname = "org.h2.jdbcx.JdbcConnectionPool", jar = "h2")
 public class H2DatasourceBeanDefinitionModifier implements BeanDefinitionModifier {

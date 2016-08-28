@@ -1,30 +1,25 @@
 package com.github.ledoyen.automocker.configuration;
 
 import java.lang.annotation.Annotation;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ServiceLoader;
 import java.util.function.Function;
 
 import org.springframework.beans.BeanUtils;
 
-import com.github.ledoyen.automocker.ModifyBeanDefinition;
-import com.github.ledoyen.automocker.ModifyBeanPostProcessor;
 import com.github.ledoyen.automocker.internal.AnnotationConfigUtils;
-import com.github.ledoyen.automocker.internal.AnnotationParser;
 
 public class AutomockerAnnotationConfigurationReader {
 
-	private final Map<Class<? extends Annotation>, Function<? extends Annotation, Object>> annotationsAnsKeyExtractors = new HashMap<>();
+	private final Map<Class<? extends Annotation>, Function<? extends Annotation, Collection<Object>>> annotationsAnsKeyExtractors = new HashMap<>();
 
+	@SuppressWarnings("unchecked")
 	public AutomockerAnnotationConfigurationReader() {
-		annotationsAnsKeyExtractors.put(ModifyBeanDefinition.class, (Function<ModifyBeanDefinition, Object>) (modifyBeanDefinition) -> {
-			if (Object.class.equals(modifyBeanDefinition.targetClass())) {
-				return modifyBeanDefinition.targetClassName();
-			} else {
-				return modifyBeanDefinition.targetClass();
-			}
+		ServiceLoader.load(AutomockerAnnotationDescriptor.class).forEach(descriptor -> {
+			annotationsAnsKeyExtractors.put(descriptor.getAnnotationType(), descriptor.keysExtractor());
 		});
-		annotationsAnsKeyExtractors.put(ModifyBeanPostProcessor.class, (Function<ModifyBeanPostProcessor, Object>) ModifyBeanPostProcessor::targetClass);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -37,7 +32,8 @@ public class AutomockerAnnotationConfigurationReader {
 			}
 			Class<? extends AnnotationParser<?>> parserClass = parserDescription.value();
 			AnnotationParser<A> parser = (AnnotationParser<A>) BeanUtils.instantiate(parserClass);
-			Map<Object, A> collectedAnnotationsByTarget = AnnotationConfigUtils.collectAnnotations(clazz, (Class<A>) annotationType, (Function<A, Object>) keyExtractor);
+			Map<Object, A> collectedAnnotationsByTarget = AnnotationConfigUtils.collectAnnotations(clazz, (Class<A>) annotationType,
+					(Function<A, Collection<Object>>) keyExtractor);
 			collectedAnnotationsByTarget.values().forEach(annotation -> {
 				parser.parse(annotation, configuration);
 			});

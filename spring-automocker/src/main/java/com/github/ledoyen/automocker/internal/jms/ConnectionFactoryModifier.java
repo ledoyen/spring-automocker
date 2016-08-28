@@ -12,7 +12,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 
 import com.github.ledoyen.automocker.BeanDefinitionModifier;
-import com.github.ledoyen.automocker.Need;
+import com.github.ledoyen.automocker.configuration.Need;
 import com.github.ledoyen.automocker.jms.JmsMock;
 import com.mockrunner.jms.ConfigurationManager;
 import com.mockrunner.jms.DestinationManager;

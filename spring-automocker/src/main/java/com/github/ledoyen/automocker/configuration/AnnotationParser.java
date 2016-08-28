@@ -1,8 +1,6 @@
-package com.github.ledoyen.automocker.internal;
+package com.github.ledoyen.automocker.configuration;
 
 import java.lang.annotation.Annotation;
-
-import com.github.ledoyen.automocker.configuration.AutomockerConfiguration;
 
 public interface AnnotationParser<T extends Annotation> {
 

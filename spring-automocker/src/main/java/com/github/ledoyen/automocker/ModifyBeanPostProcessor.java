@@ -17,7 +17,7 @@ import com.github.ledoyen.automocker.internal.parser.ModifyBeanPostProcessorPars
 @AssociatedParser(ModifyBeanPostProcessorParser.class)
 public @interface ModifyBeanPostProcessor {
 
-	String targetClass();
+	String[] targetClassName() default {};
 
 	Class<? extends BeanPostProcessorModifier> beanPostProcessorModifier();
 

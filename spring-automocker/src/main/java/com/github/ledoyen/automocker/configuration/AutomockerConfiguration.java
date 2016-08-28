@@ -13,7 +13,6 @@ import org.springframework.core.annotation.AnnotationUtils;
 
 import com.github.ledoyen.automocker.BeanDefinitionModifier;
 import com.github.ledoyen.automocker.BeanPostProcessorModifier;
-import com.github.ledoyen.automocker.Need;
 import com.github.ledoyen.automocker.tools.Tuple;
 
 public class AutomockerConfiguration {

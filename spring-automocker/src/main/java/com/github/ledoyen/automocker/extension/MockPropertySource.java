@@ -12,7 +12,7 @@ import com.github.ledoyen.automocker.internal.ApplicationContextAwareProcessorMo
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@ModifyBeanPostProcessor(targetClass = "org.springframework.context.support.ApplicationContextAwareProcessor", beanPostProcessorModifier = ApplicationContextAwareProcessorModifier.class)
+@ModifyBeanPostProcessor(targetClassName = "org.springframework.context.support.ApplicationContextAwareProcessor", beanPostProcessorModifier = ApplicationContextAwareProcessorModifier.class)
 public @interface MockPropertySource {
 
 }

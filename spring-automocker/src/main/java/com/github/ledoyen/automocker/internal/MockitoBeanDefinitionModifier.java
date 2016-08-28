@@ -8,7 +8,7 @@ import org.springframework.beans.factory.config.ConstructorArgumentValues;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 
 import com.github.ledoyen.automocker.BeanDefinitionModifier;
-import com.github.ledoyen.automocker.Need;
+import com.github.ledoyen.automocker.configuration.Need;
 
 @Need(classname = "org.mockito.Mockito", jar = { "mockito-core", "mockito-all" })
 public class MockitoBeanDefinitionModifier implements BeanDefinitionModifier {
