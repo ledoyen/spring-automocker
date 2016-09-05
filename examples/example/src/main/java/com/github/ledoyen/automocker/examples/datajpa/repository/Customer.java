@@ -1,4 +1,4 @@
-package com.github.ledoyen.automocker.examples.repository;
+package com.github.ledoyen.automocker.examples.datajpa.repository;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

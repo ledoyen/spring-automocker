@@ -65,6 +65,7 @@ public class SpringAutomockerJUnit4ClassRunner extends SpringJUnit4ClassRunner {
 			} catch (NoSuchFieldException | IllegalAccessException e) {
 				throw new RuntimeException("Unable to perform bean factory hack", e);
 			}
+			super.prepareContext(context, mergedConfig);
 		}
 	}
 

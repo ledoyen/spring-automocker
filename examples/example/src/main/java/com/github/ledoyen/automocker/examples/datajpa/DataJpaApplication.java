@@ -1,12 +1,12 @@
-package com.github.ledoyen.automocker.examples;
+package com.github.ledoyen.automocker.examples.datajpa;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.PropertySource;
 
-import com.github.ledoyen.automocker.examples.repository.Customer;
-import com.github.ledoyen.automocker.examples.repository.CustomerRepository;
+import com.github.ledoyen.automocker.examples.datajpa.repository.Customer;
+import com.github.ledoyen.automocker.examples.datajpa.repository.CustomerRepository;
 
 @SpringBootApplication
 @PropertySource("classpath:appli.properties")

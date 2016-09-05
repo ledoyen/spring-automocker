@@ -1,4 +1,4 @@
-package com.github.ledoyen.automocker.examples;
+package com.github.ledoyen.automocker.examples.datajpa;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +15,8 @@ import org.springframework.test.context.ContextConfiguration;
 import com.github.ledoyen.automocker.SpringAutomocker;
 import com.github.ledoyen.automocker.SpringAutomockerJUnit4ClassRunner;
 
-@ContextConfiguration(classes = DataJpaApplication.class)
 @SpringAutomocker
+@ContextConfiguration(classes = DataJpaApplication.class)
 public class SqlApplicationTest {
 
 	@Test
