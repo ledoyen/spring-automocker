@@ -7,11 +7,14 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyEditorRegistrar;
 import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.beans.PropertyEditorRegistrySupport;
+import org.springframework.beans.TypeConverter;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.beans.factory.config.DependencyDescriptor;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.support.ResourceEditorRegistrar;
@@ -119,6 +122,29 @@ public class AutomockerBeanFactory extends DefaultListableBeanFactory {
 			});
 		} else {
 			super.addPropertyEditorRegistrar(registrar);
+		}
+	}
+
+	public Object doResolveDependency(DependencyDescriptor descriptor, String beanName, Set<String> autowiredBeanNames, TypeConverter typeConverter) throws BeansException {
+
+		Class<?> type = descriptor.getDependencyType();
+		Object value = getAutowireCandidateResolver().getSuggestedValue(descriptor);
+		if (value != null) {
+			if (value instanceof String) {
+				try {
+					String strVal = resolveEmbeddedValue((String) value);
+					BeanDefinition bd = (beanName != null && containsBean(beanName) ? getMergedBeanDefinition(beanName) : null);
+					value = evaluateBeanDefinitionString(strVal, bd);
+				} catch (IllegalArgumentException e) {
+					// PropertySourcesPlaceholderConfigurer throws Exception when value is not found, but this is mainly the case when mocking
+					// propertySources
+				}
+			}
+			TypeConverter converter = (typeConverter != null ? typeConverter : getTypeConverter());
+			return (descriptor.getField() != null ? converter.convertIfNecessary(value, type, descriptor.getField())
+					: converter.convertIfNecessary(value, type, descriptor.getMethodParameter()));
+		} else {
+			return super.doResolveDependency(descriptor, beanName, autowiredBeanNames, typeConverter);
 		}
 	}
 
