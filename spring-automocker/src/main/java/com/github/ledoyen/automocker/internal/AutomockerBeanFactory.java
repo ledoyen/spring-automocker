@@ -150,7 +150,7 @@ public class AutomockerBeanFactory extends DefaultListableBeanFactory {
 
 	private Optional<String> resolveContent(PropertyResolver propertyResolver, String prefix, String placeholder) {
 		try {
-			String content = applicationContext.getEnvironment().resolveRequiredPlaceholders(prefix + placeholder + ".content" + "}");
+			String content = applicationContext.getEnvironment().resolveRequiredPlaceholders(prefix + placeholder + "/content" + "}");
 			return Optional.of(content);
 		} catch (IllegalArgumentException e) {
 			// eat here, nothing to do

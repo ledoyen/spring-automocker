@@ -17,7 +17,7 @@ import com.github.ledoyen.automocker.SpringAutomockerJUnit4ClassRunner;
 @SpringAutomocker
 @ContextConfiguration(classes = SimpleApplication.class)
 @RunWith(SpringAutomockerJUnit4ClassRunner.class)
-@TestPropertySource(properties = { "text.file.content = somecontent", "text.literal = literal Test Text", "text.optional=optionalText" })
+@TestPropertySource(properties = { "text.file/content = somecontent", "text.literal = literal Test Text", "text.optional=optionalText" })
 public class SimpleApplicationTest {
 
 	@Autowired
