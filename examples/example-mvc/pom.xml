@@ -13,6 +13,7 @@
 	<groupId>com.github.ledoyen.automocker.examples</groupId>
 	<artifactId>example-mvc</artifactId>
 	<name>MVC Example &amp; IT</name>
+	<description>AutoMocker MVC Example and Integration Test</description>
 
 	<dependencies>
 		<dependency>
@@ -50,5 +51,4 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	<url>AutoMocker MVC Example and Integration Test</url>
 </project>
