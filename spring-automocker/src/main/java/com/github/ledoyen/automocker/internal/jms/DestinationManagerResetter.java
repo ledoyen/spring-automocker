@@ -19,10 +19,14 @@ public class DestinationManagerResetter implements Resettable {
 	@Override
 	public void reset() {
 		for (DestinationManager destinationManager : destinationManagers) {
-			Map<String, MockDestination> queues = (Map<String, MockDestination>) ReflectionTestUtils.getField(destinationManager, "queues");
-			Map<String, MockDestination> topics = (Map<String, MockDestination>) ReflectionTestUtils.getField(destinationManager, "topics");
-			queues.values().forEach(d -> d.reset());
-			topics.values().forEach(d -> d.reset());
+			Map<String, MockDestination> queues = (Map<String, MockDestination>) ReflectionTestUtils
+					.getField(destinationManager, "queues");
+			Map<String, MockDestination> topics = (Map<String, MockDestination>) ReflectionTestUtils
+					.getField(destinationManager, "topics");
+			queues.values()
+					.forEach(d -> d.reset());
+			topics.values()
+					.forEach(d -> d.reset());
 		}
 	}
 }

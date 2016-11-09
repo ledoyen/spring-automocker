@@ -7,7 +7,8 @@ import com.github.ledoyen.automocker.BeanPostProcessorModifier;
 public class ApplicationContextAwareProcessorModifier implements BeanPostProcessorModifier {
 
 	@Override
-	public Object modify(ConfigurableApplicationContext applicationContext, Object originalBeanPostProcessor) {
+	public Object modify(ConfigurableApplicationContext applicationContext,
+			Object originalBeanPostProcessor) {
 		return new AutomockerApplicationContextAwareProcessor(applicationContext);
 	}
 }

@@ -42,7 +42,9 @@ public class MultipleDatasourcesTest {
 
 		@Test
 		public void data_initializer_have_already_persisted_customer() {
-			assertThat(customerRepo.findAll()).hasSize(1).extracting("firstname", "lastname").contains(new Tuple("Dave", "Matthews"));
+			assertThat(customerRepo.findAll()).hasSize(1)
+					.extracting("firstname", "lastname")
+					.contains(new Tuple("Dave", "Matthews"));
 		}
 	}
 
@@ -58,8 +60,12 @@ public class MultipleDatasourcesTest {
 		@Test
 		public void data_initializer_have_already_persisted_orders() {
 			assertThat(orderRepo.findAll()).hasSize(2);
-			assertThat(Sets.newHashSet(orderRepo.findAll()).stream().flatMap(o -> o.getLineItems().stream()).collect(Collectors.toList())).extracting("description")
-					.contains("Fender Jag-Stang Guitar", "Gene Simmons Axe Bass");
+			assertThat(Sets.newHashSet(orderRepo.findAll())
+					.stream()
+					.flatMap(o -> o.getLineItems()
+							.stream())
+					.collect(Collectors.toList())).extracting("description")
+							.contains("Fender Jag-Stang Guitar", "Gene Simmons Axe Bass");
 		}
 	}
 
@@ -73,15 +79,19 @@ public class MultipleDatasourcesTest {
 		private Map<String, DataSource> datasources;
 
 		@Test
-		public void datsources_are_different_and_data_is_not_shared() throws MetaDataAccessException, SQLException {
+		public void datsources_are_different_and_data_is_not_shared()
+				throws MetaDataAccessException, SQLException {
 			assertThat(datasources).containsOnlyKeys("customerDataSource", "orderDataSource");
-			assertThat(listTables(datasources.get("customerDataSource"))).containsExactly("CUSTOMER").doesNotContain("SAMPLEORDER", "LINEITEM");
-			assertThat(listTables(datasources.get("orderDataSource"))).contains("SAMPLEORDER", "LINEITEM").doesNotContain("CUSTOMER");
+			assertThat(listTables(datasources.get("customerDataSource"))).containsExactly("CUSTOMER")
+					.doesNotContain("SAMPLEORDER", "LINEITEM");
+			assertThat(listTables(datasources.get("orderDataSource"))).contains("SAMPLEORDER", "LINEITEM")
+					.doesNotContain("CUSTOMER");
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private static List<String> listTables(DataSource dataSource) throws MetaDataAccessException, SQLException {
+	private static List<String> listTables(DataSource dataSource)
+			throws MetaDataAccessException, SQLException {
 		return (List<String>) JdbcUtils.extractDatabaseMetaData(dataSource, dbmd -> {
 			ResultSet rs = dbmd.getTables(dbmd.getUserName(), null, null, new String[] { "TABLE" });
 			List<String> names = new ArrayList<>();

@@ -33,10 +33,16 @@ public class JmsApplicationTest {
 		applicativeErrorHandler.reset();
 		jmsMock.sendText("hardcore-echo-service", "test message");
 
-		Assertions.assertThat(jmsMock.containerErrorHandler().getLastCatched()).isPresent()
-				.hasValueSatisfying(t -> Assertions.assertThat(t).isExactlyInstanceOf(ListenerExecutionFailedException.class)
-						.hasCauseExactlyInstanceOf(MessageHandlingException.class).hasStackTraceContaining("Missing header 'reply-to'"));
-		Assertions.assertThat(applicativeErrorHandler.getErrorCount()).as("Applicative error counter").isEqualTo(1);
+		Assertions.assertThat(jmsMock.containerErrorHandler()
+				.getLastCatched())
+				.isPresent()
+				.hasValueSatisfying(t -> Assertions.assertThat(t)
+						.isExactlyInstanceOf(ListenerExecutionFailedException.class)
+						.hasCauseExactlyInstanceOf(MessageHandlingException.class)
+						.hasStackTraceContaining("Missing header 'reply-to'"));
+		Assertions.assertThat(applicativeErrorHandler.getErrorCount())
+				.as("Applicative error counter")
+				.isEqualTo(1);
 	}
 
 	@Test
@@ -44,7 +50,10 @@ public class JmsApplicationTest {
 		String messagePayload = "test message";
 		String responseQueueName = "response-queue";
 		jmsMock.sendText("hardcore-echo-service", messagePayload, "reply-to", responseQueueName);
-		jmsMock.assertThatDestination(responseQueueName).hasSize(1).consumingFirstMessage().hasText(messagePayload);
+		jmsMock.assertThatDestination(responseQueueName)
+				.hasSize(1)
+				.consumingFirstMessage()
+				.hasText(messagePayload);
 	}
 
 	@Test
@@ -52,10 +61,16 @@ public class JmsApplicationTest {
 		applicativeErrorHandler.reset();
 		jmsMock.sendText("simple-echo-service", "test message");
 
-		Assertions.assertThat(jmsMock.containerErrorHandler().getLastCatched()).isPresent()
-				.hasValueSatisfying(t -> Assertions.assertThat(t).isExactlyInstanceOf(ReplyFailureException.class).hasCauseExactlyInstanceOf(InvalidDestinationException.class)
+		Assertions.assertThat(jmsMock.containerErrorHandler()
+				.getLastCatched())
+				.isPresent()
+				.hasValueSatisfying(t -> Assertions.assertThat(t)
+						.isExactlyInstanceOf(ReplyFailureException.class)
+						.hasCauseExactlyInstanceOf(InvalidDestinationException.class)
 						.hasStackTraceContaining("Request message does not contain reply-to destination"));
-		Assertions.assertThat(applicativeErrorHandler.getErrorCount()).as("Applicative error counter").isEqualTo(1);
+		Assertions.assertThat(applicativeErrorHandler.getErrorCount())
+				.as("Applicative error counter")
+				.isEqualTo(1);
 	}
 
 	@Test
@@ -63,7 +78,11 @@ public class JmsApplicationTest {
 		String messagePayload = "test message";
 		String responseQueueName = "response-queue";
 
-		jmsMock.sendText("simple-echo-service", JmsMessageBuilder.newTextMessage(messagePayload).setJMSReplyTo(responseQueueName));
-		jmsMock.assertThatDestination(responseQueueName).hasSize(1).consumingFirstMessage().hasText(messagePayload);
+		jmsMock.sendText("simple-echo-service", JmsMessageBuilder.newTextMessage(messagePayload)
+				.setJMSReplyTo(responseQueueName));
+		jmsMock.assertThatDestination(responseQueueName)
+				.hasSize(1)
+				.consumingFirstMessage()
+				.hasText(messagePayload);
 	}
 }

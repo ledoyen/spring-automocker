@@ -8,7 +8,8 @@ import java.util.function.Function;
 import com.github.ledoyen.automocker.ModifyBeanPostProcessor;
 import com.github.ledoyen.automocker.configuration.AutomockerAnnotationDescriptor;
 
-public class ModifyBeanPostProcessorAnnotationDescriptor implements AutomockerAnnotationDescriptor<ModifyBeanPostProcessor> {
+public class ModifyBeanPostProcessorAnnotationDescriptor
+		implements AutomockerAnnotationDescriptor<ModifyBeanPostProcessor> {
 
 	@Override
 	public Class<ModifyBeanPostProcessor> getAnnotationType() {
@@ -21,7 +22,8 @@ public class ModifyBeanPostProcessorAnnotationDescriptor implements AutomockerAn
 			Collection<Object> keys = new HashSet<>();
 			keys.addAll(Arrays.asList(modifyBeanPostProcessor.targetClassName()));
 			if (keys.isEmpty()) {
-				throw new IllegalStateException("Annotation " + modifyBeanPostProcessor + " must have targetClass defined");
+				throw new IllegalStateException(
+						"Annotation " + modifyBeanPostProcessor + " must have targetClass defined");
 			}
 			return keys;
 		};

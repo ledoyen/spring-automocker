@@ -24,7 +24,8 @@ public abstract class BeanDefinitions {
 				} else if (factoryMetadata != null) {
 					return Class.forName(factoryMetadata.getReturnTypeName());
 				} else {
-					throw new IllegalStateException("Unable to resolve target class for BeanDefinition [" + beanDefinition + "]");
+					throw new IllegalStateException(
+							"Unable to resolve target class for BeanDefinition [" + beanDefinition + "]");
 				}
 			} catch (ClassNotFoundException ex) {
 				throw new IllegalStateException("Cannot load class: " + ex.getMessage(), ex);
@@ -34,6 +35,7 @@ public abstract class BeanDefinitions {
 	}
 
 	private static MethodMetadata getMethodMetadata(BeanDefinition beanDef) {
-		return AnnotatedBeanDefinition.class.isAssignableFrom(beanDef.getClass()) ? ((AnnotatedBeanDefinition) beanDef).getFactoryMethodMetadata() : null;
+		return AnnotatedBeanDefinition.class.isAssignableFrom(beanDef.getClass())
+				? ((AnnotatedBeanDefinition) beanDef).getFactoryMethodMetadata() : null;
 	}
 }

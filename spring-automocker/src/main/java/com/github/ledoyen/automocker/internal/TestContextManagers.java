@@ -21,7 +21,8 @@ import com.github.ledoyen.automocker.configuration.AutomockerConfiguration;
 
 public class TestContextManagers {
 
-	public static TestContextBootstrapper createTestContextBootstrapper(Class<?> testClass, Class<?> automockerConfigurationClass) {
+	public static TestContextBootstrapper createTestContextBootstrapper(Class<?> testClass,
+			Class<?> automockerConfigurationClass) {
 		TestContextBootstrapper testContextBootstrapper = new DefaultTestContextBootstrapper() {
 			@Override
 			protected Class<? extends ContextLoader> getDefaultContextLoaderClass(Class<?> testClass) {
@@ -29,8 +30,10 @@ public class TestContextManagers {
 			}
 
 			@Override
-			protected MergedContextConfiguration processMergedContextConfiguration(MergedContextConfiguration mergedConfig) {
-				return new AutomockerMergedContextConfiguration(mergedConfig, new AutomockerAnnotationConfigurationReader().readFrom(automockerConfigurationClass));
+			protected MergedContextConfiguration processMergedContextConfiguration(
+					MergedContextConfiguration mergedConfig) {
+				return new AutomockerMergedContextConfiguration(mergedConfig,
+						new AutomockerAnnotationConfigurationReader().readFrom(automockerConfigurationClass));
 			}
 
 			@Override
@@ -41,17 +44,20 @@ public class TestContextManagers {
 				return Collections.unmodifiableList(classes);
 			}
 		};
-		testContextBootstrapper.setBootstrapContext(new DefaultBootstrapContext(testClass, new DefaultCacheAwareContextLoaderDelegate()));
+		testContextBootstrapper.setBootstrapContext(
+				new DefaultBootstrapContext(testClass, new DefaultCacheAwareContextLoaderDelegate()));
 		return testContextBootstrapper;
 	}
 
 	private static final class AutomockerContextLoader extends AnnotationConfigContextLoader {
 		@Override
-		public void prepareContext(ConfigurableApplicationContext context, MergedContextConfiguration mergedConfig) {
+		public void prepareContext(ConfigurableApplicationContext context,
+				MergedContextConfiguration mergedConfig) {
 			try {
 				Field beanFactoryField = GenericApplicationContext.class.getDeclaredField("beanFactory");
 				beanFactoryField.setAccessible(true);
-				BeanFactory beanFactory = new AutomockerBeanFactory(((AutomockerMergedContextConfiguration) mergedConfig).configuration, context);
+				BeanFactory beanFactory = new AutomockerBeanFactory(
+						((AutomockerMergedContextConfiguration) mergedConfig).configuration, context);
 				beanFactoryField.set(context, beanFactory);
 			} catch (NoSuchFieldException | IllegalAccessException e) {
 				throw new RuntimeException("Unable to perform bean factory hack", e);
@@ -65,7 +71,8 @@ public class TestContextManagers {
 
 		private final AutomockerConfiguration configuration;
 
-		public AutomockerMergedContextConfiguration(MergedContextConfiguration mergedConfig, AutomockerConfiguration configuration) {
+		public AutomockerMergedContextConfiguration(MergedContextConfiguration mergedConfig,
+				AutomockerConfiguration configuration) {
 			super(mergedConfig);
 			this.configuration = configuration;
 		}

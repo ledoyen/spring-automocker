@@ -17,9 +17,11 @@ public class AutomockerAnnotationConfigurationReader {
 
 	@SuppressWarnings("unchecked")
 	public AutomockerAnnotationConfigurationReader() {
-		ServiceLoader.load(AutomockerAnnotationDescriptor.class).forEach(descriptor -> {
-			annotationsAnsKeyExtractors.put(descriptor.getAnnotationType(), descriptor.keysExtractor());
-		});
+		ServiceLoader.load(AutomockerAnnotationDescriptor.class)
+				.forEach(descriptor -> {
+					annotationsAnsKeyExtractors.put(descriptor.getAnnotationType(),
+							descriptor.keysExtractor());
+				});
 	}
 
 	@SuppressWarnings("unchecked")
@@ -28,15 +30,17 @@ public class AutomockerAnnotationConfigurationReader {
 		annotationsAnsKeyExtractors.forEach((annotationType, keyExtractor) -> {
 			AssociatedParser parserDescription = annotationType.getAnnotation(AssociatedParser.class);
 			if (parserDescription == null) {
-				throw new IllegalArgumentException("Cannot use configuration-defined [" + annotationType.getSimpleName() + "] that is missing an @AssociatedParser");
+				throw new IllegalArgumentException("Cannot use configuration-defined ["
+						+ annotationType.getSimpleName() + "] that is missing an @AssociatedParser");
 			}
 			Class<? extends AnnotationParser<?>> parserClass = parserDescription.value();
 			AnnotationParser<A> parser = (AnnotationParser<A>) BeanUtils.instantiate(parserClass);
-			Map<Object, A> collectedAnnotationsByTarget = AnnotationConfigUtils.collectAnnotations(clazz, (Class<A>) annotationType,
-					(Function<A, Collection<Object>>) keyExtractor);
-			collectedAnnotationsByTarget.values().forEach(annotation -> {
-				parser.parse(annotation, configuration);
-			});
+			Map<Object, A> collectedAnnotationsByTarget = AnnotationConfigUtils.collectAnnotations(clazz,
+					(Class<A>) annotationType, (Function<A, Collection<Object>>) keyExtractor);
+			collectedAnnotationsByTarget.values()
+					.forEach(annotation -> {
+						parser.parse(annotation, configuration);
+					});
 		});
 		return configuration;
 	}

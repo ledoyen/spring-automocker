@@ -12,7 +12,8 @@ import com.github.ledoyen.automocker.BeanDefinitionModifier;
 public class MvcControllerMocker implements BeanDefinitionModifier {
 
 	@Override
-	public void modify(Class<?> target, String beanName, AbstractBeanDefinition definition, BiConsumer<String, BeanDefinition> additionalDefinitionsRegistry) {
+	public void modify(Class<?> target, String beanName, AbstractBeanDefinition definition,
+			BiConsumer<String, BeanDefinition> additionalDefinitionsRegistry) {
 	}
 
 	public void afterModifications(DefaultListableBeanFactory beanFactory) {

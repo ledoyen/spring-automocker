@@ -14,13 +14,17 @@ public class ModifyBeanDefinitionParser implements AnnotationParser<ModifyBeanDe
 
 	@Override
 	public void parse(ModifyBeanDefinition annotation, AutomockerConfiguration configuration) {
-		Arrays.asList(annotation.targetClass()).forEach(targetClass -> configuration.addBeanModification(targetClass, annotation.beanDefinitionModifier()));
-		Arrays.asList(annotation.targetClassName()).forEach(targetClassName -> {
-			try {
-				configuration.addBeanModification(ClassUtils.forName(targetClassName, CLASS_LOADER), annotation.beanDefinitionModifier());
-			} catch (ClassNotFoundException e) {
-				// Ignore this definition as ClassPath does not contain the class that is to be mocked
-			}
-		});
+		Arrays.asList(annotation.targetClass())
+				.forEach(targetClass -> configuration.addBeanModification(targetClass,
+						annotation.beanDefinitionModifier()));
+		Arrays.asList(annotation.targetClassName())
+				.forEach(targetClassName -> {
+					try {
+						configuration.addBeanModification(ClassUtils.forName(targetClassName, CLASS_LOADER),
+								annotation.beanDefinitionModifier());
+					} catch (ClassNotFoundException e) {
+						// Ignore this definition as ClassPath does not contain the class that is to be mocked
+					}
+				});
 	}
 }

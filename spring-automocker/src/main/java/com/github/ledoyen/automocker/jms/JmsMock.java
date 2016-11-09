@@ -28,7 +28,8 @@ public final class JmsMock {
 	}
 
 	public void sendText(String destinationName, String textPayload, Object... properties) {
-		sendText(destinationName, JmsMessageBuilder.newTextMessage(textPayload).addProperties(properties));
+		sendText(destinationName, JmsMessageBuilder.newTextMessage(textPayload)
+				.addProperties(properties));
 	}
 
 	public void sendText(String destinationName, JmsMessageBuilder messageBuilder) {
@@ -41,8 +42,10 @@ public final class JmsMock {
 
 	public ErrorHandlerMock containerErrorHandler() {
 		if (errorHandlerMock == null) {
-			throw new IllegalStateException("No " + ErrorHandler.class.getSimpleName() + " available, make sure @MockJms is present and an "
-					+ AbstractJmsListenerContainerFactory.class.getSimpleName() + " is configured in your Spring configuration");
+			throw new IllegalStateException("No " + ErrorHandler.class.getSimpleName()
+					+ " available, make sure @MockJms is present and an "
+					+ AbstractJmsListenerContainerFactory.class.getSimpleName()
+					+ " is configured in your Spring configuration");
 		}
 		return errorHandlerMock;
 	}

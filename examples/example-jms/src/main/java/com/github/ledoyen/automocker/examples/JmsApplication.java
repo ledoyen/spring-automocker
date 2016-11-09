@@ -24,7 +24,8 @@ import org.springframework.util.FileSystemUtils;
 public class JmsApplication {
 
 	@Bean // Strictly speaking this bean is not necessary as boot creates a default
-	JmsListenerContainerFactory<?> jmsListenerContainerFactory(ConnectionFactory connectionFactory, JmsErrorHandler errorHandler) {
+	JmsListenerContainerFactory<?> jmsListenerContainerFactory(ConnectionFactory connectionFactory,
+			JmsErrorHandler errorHandler) {
 		SimpleJmsListenerContainerFactory factory = new SimpleJmsListenerContainerFactory();
 		factory.setConnectionFactory(connectionFactory);
 		factory.setErrorHandler(errorHandler);

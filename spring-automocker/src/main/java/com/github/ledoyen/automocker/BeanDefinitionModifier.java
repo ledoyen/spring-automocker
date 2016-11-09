@@ -8,7 +8,8 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
 public interface BeanDefinitionModifier {
 
-	void modify(Class<?> target, String beanName, AbstractBeanDefinition definition, BiConsumer<String, BeanDefinition> additionalDefinitionsRegistry);
+	void modify(Class<?> target, String beanName, AbstractBeanDefinition definition,
+			BiConsumer<String, BeanDefinition> additionalDefinitionsRegistry);
 
 	default void afterModifications(DefaultListableBeanFactory beanFactory) {
 	}

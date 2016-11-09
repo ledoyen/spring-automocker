@@ -25,7 +25,8 @@ import com.github.ledoyen.automocker.examples.multipleds.customer.Customer.Custo
  * @see example.springdata.jpa.multipleds.customer.CustomerConfig
  * @see example.springdata.jpa.multipleds.order.OrderConfig
  */
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class })
+@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class,
+		DataSourceTransactionManagerAutoConfiguration.class })
 @EnableTransactionManagement
 public class MultipleDatasourcesApplication {
 

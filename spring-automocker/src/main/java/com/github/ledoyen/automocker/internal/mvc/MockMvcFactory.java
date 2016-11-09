@@ -38,8 +38,11 @@ class MockMvcFactory implements FactoryBean<MockMvc>, ApplicationContextAware, I
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		Map<String, Object> controllersByName = applicationContext.getBeansWithAnnotation(Controller.class);
-		this.singleton = MockMvcBuilders.standaloneSetup(controllersByName.values().toArray()).build();
-		LOGGER.debug("Setting up " + MockMvc.class.getSimpleName() + " for controllers " + controllersByName.keySet());
+		this.singleton = MockMvcBuilders.standaloneSetup(controllersByName.values()
+				.toArray())
+				.build();
+		LOGGER.debug("Setting up " + MockMvc.class.getSimpleName() + " for controllers "
+				+ controllersByName.keySet());
 	}
 
 	@Override

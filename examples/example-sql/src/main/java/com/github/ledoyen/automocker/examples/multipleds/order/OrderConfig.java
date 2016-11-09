@@ -40,7 +40,8 @@ class OrderConfig {
 
 		factoryBean.setDataSource(orderDataSource());
 		factoryBean.setJpaVendorAdapter(vendorAdapter);
-		factoryBean.setPackagesToScan(OrderConfig.class.getPackage().getName());
+		factoryBean.setPackagesToScan(OrderConfig.class.getPackage()
+				.getName());
 
 		return factoryBean;
 	}
@@ -49,8 +50,10 @@ class OrderConfig {
 	DataSource orderDataSource() {
 
 		return new EmbeddedDatabaseBuilder().//
-				setType(EmbeddedDatabaseType.HSQL).//
-				setName("orders").//
+				setType(EmbeddedDatabaseType.HSQL)
+				.//
+				setName("orders")
+				.//
 				build();
 	}
 }

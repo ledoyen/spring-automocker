@@ -14,13 +14,16 @@ import com.github.ledoyen.automocker.BeanDefinitionModifier;
 public class JmsListenerContainerFactoryModifier implements BeanDefinitionModifier {
 
 	@Override
-	public void modify(Class<?> target, String beanName, AbstractBeanDefinition definition, BiConsumer<String, BeanDefinition> additionalDefinitionsRegistry) {
+	public void modify(Class<?> target, String beanName, AbstractBeanDefinition definition,
+			BiConsumer<String, BeanDefinition> additionalDefinitionsRegistry) {
 	}
 
 	public void afterModifications(DefaultListableBeanFactory beanFactory) {
-		JmsListenerContainerFactory<?> jmsContainerFactory = beanFactory.getBean(JmsListenerContainerFactory.class);
+		JmsListenerContainerFactory<?> jmsContainerFactory = beanFactory
+				.getBean(JmsListenerContainerFactory.class);
 		if (jmsContainerFactory instanceof AbstractJmsListenerContainerFactory) {
-			beanFactory.registerBeanDefinition("jmsErrorHandlerEnricher", new RootBeanDefinition(ErrorHandlerMock.class));
+			beanFactory.registerBeanDefinition("jmsErrorHandlerEnricher",
+					new RootBeanDefinition(ErrorHandlerMock.class));
 		}
 	}
 }

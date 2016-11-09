@@ -13,12 +13,16 @@ public class ModifyBeanPostProcessorParser implements AnnotationParser<ModifyBea
 
 	@Override
 	public void parse(ModifyBeanPostProcessor annotation, AutomockerConfiguration configuration) {
-		Arrays.asList(annotation.targetClassName()).forEach(targetClassName -> {
-			try {
-				configuration.addPostProcessorModification(Class.forName(targetClassName), BeanUtils.instantiate(annotation.beanPostProcessorModifier()));
-			} catch (BeanInstantiationException | ClassNotFoundException e) {
-				throw new IllegalArgumentException("Unable to load class [" + annotation.targetClassName() + "], make sure it is in the test classpath", e);
-			}
-		});
+		Arrays.asList(annotation.targetClassName())
+				.forEach(targetClassName -> {
+					try {
+						configuration.addPostProcessorModification(Class.forName(targetClassName),
+								BeanUtils.instantiate(annotation.beanPostProcessorModifier()));
+					} catch (BeanInstantiationException | ClassNotFoundException e) {
+						throw new IllegalArgumentException("Unable to load class ["
+								+ annotation.targetClassName() + "], make sure it is in the test classpath",
+								e);
+					}
+				});
 	}
 }

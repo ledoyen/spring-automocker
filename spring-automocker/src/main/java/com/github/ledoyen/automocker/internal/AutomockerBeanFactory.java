@@ -37,7 +37,8 @@ public class AutomockerBeanFactory extends DefaultListableBeanFactory {
 
 	private final Set<BeanDefinitionModifier> matchedModifiers = new HashSet<>();
 
-	public AutomockerBeanFactory(AutomockerConfiguration configuration, ConfigurableApplicationContext context) {
+	public AutomockerBeanFactory(AutomockerConfiguration configuration,
+			ConfigurableApplicationContext context) {
 		this.configuration = configuration;
 		this.applicationContext = context;
 	}
@@ -45,10 +46,14 @@ public class AutomockerBeanFactory extends DefaultListableBeanFactory {
 	@Override
 	public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
 		if (!freezeStarted) {
-			Optional.ofNullable(BeanDefinitions.extractClass(beanDefinition)).flatMap(definitionClass -> configuration.getModifier(definitionClass)).ifPresent(modifier -> {
-				matchedModifiers.add(modifier._2());
-				modifier._2().modify(modifier._1(), beanName, (AbstractBeanDefinition) beanDefinition, (name, def) -> super.registerBeanDefinition(name, def));
-			});
+			Optional.ofNullable(BeanDefinitions.extractClass(beanDefinition))
+					.flatMap(definitionClass -> configuration.getModifier(definitionClass))
+					.ifPresent(modifier -> {
+						matchedModifiers.add(modifier._2());
+						modifier._2()
+								.modify(modifier._1(), beanName, (AbstractBeanDefinition) beanDefinition,
+										(name, def) -> super.registerBeanDefinition(name, def));
+					});
 		}
 		super.registerBeanDefinition(beanName, beanDefinition);
 	}
@@ -69,9 +74,11 @@ public class AutomockerBeanFactory extends DefaultListableBeanFactory {
 	public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
 		// TODO change by configuration and @ReplaceBeanPostProcessor
 		try {
-			Class<?> clazz = Class.forName("org.springframework.context.support.ApplicationContextAwareProcessor");
+			Class<?> clazz = Class
+					.forName("org.springframework.context.support.ApplicationContextAwareProcessor");
 			if (clazz.isAssignableFrom(beanPostProcessor.getClass())) {
-				super.addBeanPostProcessor(new AutomockerApplicationContextAwareProcessor(applicationContext));
+				super.addBeanPostProcessor(
+						new AutomockerApplicationContextAwareProcessor(applicationContext));
 			} else {
 				super.addBeanPostProcessor(beanPostProcessor);
 			}
@@ -85,47 +92,55 @@ public class AutomockerBeanFactory extends DefaultListableBeanFactory {
 	@Override
 	public void addPropertyEditorRegistrar(PropertyEditorRegistrar registrar) {
 		if (ResourceEditorRegistrar.class.isInstance(registrar)) {
-			super.addPropertyEditorRegistrar(new ResourceEditorRegistrar(applicationContext, applicationContext.getEnvironment()) {
-				public void registerCustomEditors(PropertyEditorRegistry registry) {
-					super.registerCustomEditors(registry);
-					ResourceEditor baseEditor = new ResourceEditor(applicationContext, applicationContext.getEnvironment()) {
-						@Override
-						public void setAsText(String text) {
-							if (StringUtils.hasText(text)) {
-								Matcher matcher = placeholderRegexp.matcher(text);
+			super.addPropertyEditorRegistrar(
+					new ResourceEditorRegistrar(applicationContext, applicationContext.getEnvironment()) {
+						public void registerCustomEditors(PropertyEditorRegistry registry) {
+							super.registerCustomEditors(registry);
+							ResourceEditor baseEditor = new ResourceEditor(applicationContext,
+									applicationContext.getEnvironment()) {
+								@Override
+								public void setAsText(String text) {
+									if (StringUtils.hasText(text)) {
+										Matcher matcher = placeholderRegexp.matcher(text);
 
-								if (matcher.matches()) {
-									Optional<String> content = resolveContent(applicationContext.getEnvironment(), matcher.group(1), matcher.group(2));
-									if (content.isPresent()) {
-										setValue(new ByteArrayResource(content.get().getBytes(), "Automocker inlined resource"));
+										if (matcher.matches()) {
+											Optional<String> content = resolveContent(
+													applicationContext.getEnvironment(), matcher.group(1),
+													matcher.group(2));
+											if (content.isPresent()) {
+												setValue(new ByteArrayResource(content.get()
+														.getBytes(), "Automocker inlined resource"));
+											} else {
+												super.setAsText(text);
+											}
+										} else {
+											super.setAsText(text);
+										}
 									} else {
-										super.setAsText(text);
+										setValue(null);
 									}
-								} else {
-									super.setAsText(text);
 								}
+							};
+							doRegisterEditor(registry, Resource.class, baseEditor);
+						}
+
+						private void doRegisterEditor(PropertyEditorRegistry registry, Class<?> requiredType,
+								PropertyEditor editor) {
+							if (registry instanceof PropertyEditorRegistrySupport) {
+								((PropertyEditorRegistrySupport) registry).overrideDefaultEditor(requiredType,
+										editor);
 							} else {
-								setValue(null);
+								registry.registerCustomEditor(requiredType, editor);
 							}
 						}
-					};
-					doRegisterEditor(registry, Resource.class, baseEditor);
-				}
-
-				private void doRegisterEditor(PropertyEditorRegistry registry, Class<?> requiredType, PropertyEditor editor) {
-					if (registry instanceof PropertyEditorRegistrySupport) {
-						((PropertyEditorRegistrySupport) registry).overrideDefaultEditor(requiredType, editor);
-					} else {
-						registry.registerCustomEditor(requiredType, editor);
-					}
-				}
-			});
+					});
 		} else {
 			super.addPropertyEditorRegistrar(registrar);
 		}
 	}
 
-	public Object doResolveDependency(DependencyDescriptor descriptor, String beanName, Set<String> autowiredBeanNames, TypeConverter typeConverter) throws BeansException {
+	public Object doResolveDependency(DependencyDescriptor descriptor, String beanName,
+			Set<String> autowiredBeanNames, TypeConverter typeConverter) throws BeansException {
 
 		Class<?> type = descriptor.getDependencyType();
 		Object value = getAutowireCandidateResolver().getSuggestedValue(descriptor);
@@ -133,7 +148,8 @@ public class AutomockerBeanFactory extends DefaultListableBeanFactory {
 			if (value instanceof String) {
 				try {
 					String strVal = resolveEmbeddedValue((String) value);
-					BeanDefinition bd = (beanName != null && containsBean(beanName) ? getMergedBeanDefinition(beanName) : null);
+					BeanDefinition bd = (beanName != null && containsBean(beanName)
+							? getMergedBeanDefinition(beanName) : null);
 					value = evaluateBeanDefinitionString(strVal, bd);
 				} catch (IllegalArgumentException e) {
 					// PropertySourcesPlaceholderConfigurer throws Exception when value is not found, but this is mainly the case when mocking
@@ -141,16 +157,19 @@ public class AutomockerBeanFactory extends DefaultListableBeanFactory {
 				}
 			}
 			TypeConverter converter = (typeConverter != null ? typeConverter : getTypeConverter());
-			return (descriptor.getField() != null ? converter.convertIfNecessary(value, type, descriptor.getField())
+			return (descriptor.getField() != null
+					? converter.convertIfNecessary(value, type, descriptor.getField())
 					: converter.convertIfNecessary(value, type, descriptor.getMethodParameter()));
 		} else {
 			return super.doResolveDependency(descriptor, beanName, autowiredBeanNames, typeConverter);
 		}
 	}
 
-	private Optional<String> resolveContent(PropertyResolver propertyResolver, String prefix, String placeholder) {
+	private Optional<String> resolveContent(PropertyResolver propertyResolver, String prefix,
+			String placeholder) {
 		try {
-			String content = applicationContext.getEnvironment().resolveRequiredPlaceholders(prefix + placeholder + "/content" + "}");
+			String content = applicationContext.getEnvironment()
+					.resolveRequiredPlaceholders(prefix + placeholder + "/content" + "}");
 			return Optional.of(content);
 		} catch (IllegalArgumentException e) {
 			// eat here, nothing to do

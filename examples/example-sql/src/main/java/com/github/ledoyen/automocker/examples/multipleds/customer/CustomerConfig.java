@@ -40,7 +40,8 @@ class CustomerConfig {
 
 		factoryBean.setDataSource(customerDataSource());
 		factoryBean.setJpaVendorAdapter(jpaVendorAdapter);
-		factoryBean.setPackagesToScan(CustomerConfig.class.getPackage().getName());
+		factoryBean.setPackagesToScan(CustomerConfig.class.getPackage()
+				.getName());
 
 		return factoryBean;
 	}
@@ -49,8 +50,10 @@ class CustomerConfig {
 	DataSource customerDataSource() {
 
 		return new EmbeddedDatabaseBuilder().//
-				setType(EmbeddedDatabaseType.HSQL).//
-				setName("customers").//
+				setType(EmbeddedDatabaseType.HSQL)
+				.//
+				setName("customers")
+				.//
 				build();
 	}
 }

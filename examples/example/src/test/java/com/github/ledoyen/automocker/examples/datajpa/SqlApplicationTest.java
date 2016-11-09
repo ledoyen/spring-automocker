@@ -30,8 +30,11 @@ public class SqlApplicationTest {
 			}
 		});
 		runner.run(notifier);
-		Assertions.assertThat(testFailures).as("Test failures").hasSize(1);
+		Assertions.assertThat(testFailures)
+				.as("Test failures")
+				.hasSize(1);
 		Assertions.assertThat(testFailures.get(0))
-				.hasStackTraceContaining("Automocker is missing class [org.h2.jdbcx.JdbcConnectionPool] to handle [DataSource], make sure h2.jar is in the test classpath");
+				.hasStackTraceContaining(
+						"Automocker is missing class [org.h2.jdbcx.JdbcConnectionPool] to handle [DataSource], make sure h2.jar is in the test classpath");
 	}
 }

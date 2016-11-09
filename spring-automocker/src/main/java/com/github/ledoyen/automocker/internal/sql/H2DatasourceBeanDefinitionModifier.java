@@ -14,7 +14,8 @@ import com.github.ledoyen.automocker.configuration.Need;
 public class H2DatasourceBeanDefinitionModifier implements BeanDefinitionModifier {
 
 	@Override
-	public void modify(Class<?> target, String beanName, AbstractBeanDefinition definition, BiConsumer<String, BeanDefinition> additionalDefinitionsRegistry) {
+	public void modify(Class<?> target, String beanName, AbstractBeanDefinition definition,
+			BiConsumer<String, BeanDefinition> additionalDefinitionsRegistry) {
 		definition.setBeanClass(JdbcDataSource.class);
 		definition.setFactoryBeanName(null);
 		definition.setFactoryMethodName(null);

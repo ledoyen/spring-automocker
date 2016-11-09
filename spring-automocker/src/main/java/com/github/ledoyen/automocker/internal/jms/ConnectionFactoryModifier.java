@@ -27,11 +27,13 @@ public class ConnectionFactoryModifier implements BeanDefinitionModifier {
 	private String modifiedBeanName = null;
 
 	@Override
-	public void modify(Class<?> target, String beanName, AbstractBeanDefinition definition, BiConsumer<String, BeanDefinition> additionalDefinitionsRegistry) {
+	public void modify(Class<?> target, String beanName, AbstractBeanDefinition definition,
+			BiConsumer<String, BeanDefinition> additionalDefinitionsRegistry) {
 		if (modifiedBeanName == null || beanName.equals(modifiedBeanName)) {
 			modifiedBeanName = beanName;
 		} else {
-			throw new IllegalStateException("Multiple " + ConnectionFactory.class.getName() + " defined, only one is supported for now");
+			throw new IllegalStateException("Multiple " + ConnectionFactory.class.getName()
+					+ " defined, only one is supported for now");
 		}
 		definition.setBeanClass(MockConnectionFactory.class);
 		definition.setFactoryMethodName(null);
@@ -42,8 +44,10 @@ public class ConnectionFactoryModifier implements BeanDefinitionModifier {
 		cav.addIndexedArgumentValue(1, new RuntimeBeanReference(CONFIGURATION_MANAGER_BEAN_NAME));
 		definition.setConstructorArgumentValues(cav);
 
-		additionalDefinitionsRegistry.accept(DESTINATION_MANAGER_BEAN_NAME, new RootBeanDefinition(DestinationManager.class));
-		additionalDefinitionsRegistry.accept(CONFIGURATION_MANAGER_BEAN_NAME, new RootBeanDefinition(ConfigurationManager.class));
+		additionalDefinitionsRegistry.accept(DESTINATION_MANAGER_BEAN_NAME,
+				new RootBeanDefinition(DestinationManager.class));
+		additionalDefinitionsRegistry.accept(CONFIGURATION_MANAGER_BEAN_NAME,
+				new RootBeanDefinition(ConfigurationManager.class));
 	}
 
 	public void afterModifications(DefaultListableBeanFactory beanFactory) {
@@ -54,6 +58,7 @@ public class ConnectionFactoryModifier implements BeanDefinitionModifier {
 		jmsMockBeanDefinition.setConstructorArgumentValues(cav);
 		beanFactory.registerBeanDefinition("jmsMock", jmsMockBeanDefinition);
 
-		beanFactory.registerBeanDefinition("destinationManagerLocator", new RootBeanDefinition(DestinationManagerResetter.class));
+		beanFactory.registerBeanDefinition("destinationManagerLocator",
+				new RootBeanDefinition(DestinationManagerResetter.class));
 	}
 }

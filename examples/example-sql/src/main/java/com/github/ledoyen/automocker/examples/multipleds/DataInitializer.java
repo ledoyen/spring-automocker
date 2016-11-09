@@ -43,7 +43,8 @@ public class DataInitializer {
 	 */
 	@Transactional("customerTransactionManager")
 	public CustomerId initializeCustomer() {
-		return customers.save(new Customer("Dave", "Matthews")).getId();
+		return customers.save(new Customer("Dave", "Matthews"))
+				.getId();
 	}
 
 	/**

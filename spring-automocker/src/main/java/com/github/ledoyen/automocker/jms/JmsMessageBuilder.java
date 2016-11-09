@@ -53,7 +53,8 @@ public abstract class JmsMessageBuilder {
 	}
 
 	public JmsMessageBuilder addProperties(Object... properties) {
-		Maps.build(String.class, properties).forEach((k, v) -> this.properties.put(k, v));
+		Maps.build(String.class, properties)
+				.forEach((k, v) -> this.properties.put(k, v));
 		return this;
 	}
 
@@ -145,7 +146,8 @@ public abstract class JmsMessageBuilder {
 		}
 
 		public MapMessageBuilder setObjects(Map<String, ?> map) {
-			Optional.ofNullable(map).ifPresent(m -> m.forEach((k, v) -> this.map.put(k, v)));
+			Optional.ofNullable(map)
+					.ifPresent(m -> m.forEach((k, v) -> this.map.put(k, v)));
 			return this;
 		}
 
@@ -180,7 +182,8 @@ public abstract class JmsMessageBuilder {
 		if (priority != null)
 			message.setJMSPriority(priority);
 
-		properties.entrySet().forEach(ThrowingConsumer.silent(e -> message.setObjectProperty(e.getKey(), e.getValue())));
+		properties.entrySet()
+				.forEach(ThrowingConsumer.silent(e -> message.setObjectProperty(e.getKey(), e.getValue())));
 		return message;
 	}
 

@@ -15,11 +15,14 @@ public class JmsMessageAssert {
 	}
 
 	public void hasText(String messagePayload) {
-		Assertions.assertThat(message).isInstanceOf(TextMessage.class);
+		Assertions.assertThat(message)
+				.isInstanceOf(TextMessage.class);
 		try {
-			Assertions.assertThat(((TextMessage) message).getText()).isEqualTo(messagePayload);
+			Assertions.assertThat(((TextMessage) message).getText())
+					.isEqualTo(messagePayload);
 		} catch (JMSException e) {
-			throw new IllegalStateException("Unable to retrieve 'text' from a " + TextMessage.class.getName());
+			throw new IllegalStateException(
+					"Unable to retrieve 'text' from a " + TextMessage.class.getName());
 		}
 	}
 }

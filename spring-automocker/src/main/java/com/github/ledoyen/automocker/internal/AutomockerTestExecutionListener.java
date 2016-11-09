@@ -11,7 +11,8 @@ public class AutomockerTestExecutionListener extends AbstractTestExecutionListen
 	@Override
 	public void afterTestMethod(TestContext testContext) throws Exception {
 		ApplicationContext applicationContext = testContext.getApplicationContext();
-		for (Resettable resettable : applicationContext.getBeansOfType(Resettable.class).values()) {
+		for (Resettable resettable : applicationContext.getBeansOfType(Resettable.class)
+				.values()) {
 			resettable.reset();
 		}
 	}

@@ -8,7 +8,8 @@ import java.util.function.Function;
 import com.github.ledoyen.automocker.ModifyBeanDefinition;
 import com.github.ledoyen.automocker.configuration.AutomockerAnnotationDescriptor;
 
-public class ModifyBeanDefinitionAnnotationDescriptor implements AutomockerAnnotationDescriptor<ModifyBeanDefinition> {
+public class ModifyBeanDefinitionAnnotationDescriptor
+		implements AutomockerAnnotationDescriptor<ModifyBeanDefinition> {
 
 	@Override
 	public Class<ModifyBeanDefinition> getAnnotationType() {
@@ -22,7 +23,8 @@ public class ModifyBeanDefinitionAnnotationDescriptor implements AutomockerAnnot
 			keys.addAll(Arrays.asList(modifyBeanDefinition.targetClassName()));
 			keys.addAll(Arrays.asList(modifyBeanDefinition.targetClass()));
 			if (keys.isEmpty()) {
-				throw new IllegalStateException("Annotation " + modifyBeanDefinition + " must have targetClass or targetClassName defined");
+				throw new IllegalStateException("Annotation " + modifyBeanDefinition
+						+ " must have targetClass or targetClassName defined");
 			}
 			return keys;
 		};

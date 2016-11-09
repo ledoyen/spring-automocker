@@ -23,13 +23,17 @@ public class DataJpaApplicationTest {
 
 	@Test
 	public void repository_is_available_and_consistent() throws InitializationError {
-		Assertions.assertThat(repo.count()).isEqualTo(0L);
+		Assertions.assertThat(repo.count())
+				.isEqualTo(0L);
 		repo.save(new Customer("Scarlett", "Johansson"));
-		Assertions.assertThat(repo.count()).isEqualTo(1L);
+		Assertions.assertThat(repo.count())
+				.isEqualTo(1L);
 		repo.save(new Customer("Jessica", "Alba"));
-		Assertions.assertThat(repo.count()).isEqualTo(2L);
+		Assertions.assertThat(repo.count())
+				.isEqualTo(2L);
 
 		repo.delete(repo.findByLastName("Johansson"));
-		Assertions.assertThat(repo.count()).isEqualTo(1L);
+		Assertions.assertThat(repo.count())
+				.isEqualTo(1L);
 	}
 }

@@ -27,8 +27,10 @@ public class ErrorHandlerMock implements ApplicationContextAware, InitializingBe
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		AbstractJmsListenerContainerFactory<?> jmsListenerContainerFactory = applicationContext.getBean(AbstractJmsListenerContainerFactory.class);
-		delegate = Optional.ofNullable((ErrorHandler) ReflectionTestUtils.getField(jmsListenerContainerFactory, "errorHandler"));
+		AbstractJmsListenerContainerFactory<?> jmsListenerContainerFactory = applicationContext
+				.getBean(AbstractJmsListenerContainerFactory.class);
+		delegate = Optional.ofNullable(
+				(ErrorHandler) ReflectionTestUtils.getField(jmsListenerContainerFactory, "errorHandler"));
 		jmsListenerContainerFactory.setErrorHandler(this);
 		ReflectionTestUtils.setField(applicationContext.getBean(JmsMock.class), "errorHandlerMock", this);
 	}

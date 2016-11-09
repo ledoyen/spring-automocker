@@ -29,9 +29,12 @@ public class AutomockerApplicationContextAwareProcessor implements BeanPostProce
 	public Object postProcessBeforeInitialization(final Object bean, String beanName) throws BeansException {
 		AccessControlContext acc = null;
 
-		if (System.getSecurityManager() != null && (bean instanceof EnvironmentAware || bean instanceof EmbeddedValueResolverAware || bean instanceof ResourceLoaderAware
-				|| bean instanceof ApplicationEventPublisherAware || bean instanceof MessageSourceAware || bean instanceof ApplicationContextAware)) {
-			acc = this.applicationContext.getBeanFactory().getAccessControlContext();
+		if (System.getSecurityManager() != null && (bean instanceof EnvironmentAware
+				|| bean instanceof EmbeddedValueResolverAware || bean instanceof ResourceLoaderAware
+				|| bean instanceof ApplicationEventPublisherAware || bean instanceof MessageSourceAware
+				|| bean instanceof ApplicationContextAware)) {
+			acc = this.applicationContext.getBeanFactory()
+					.getAccessControlContext();
 		}
 
 		if (acc != null) {
@@ -52,10 +55,12 @@ public class AutomockerApplicationContextAwareProcessor implements BeanPostProce
 	private void invokeAwareInterfaces(Object bean) {
 		if (bean instanceof Aware) {
 			if (bean instanceof EnvironmentAware) {
-				((EnvironmentAware) bean).setEnvironment(new AutomockerEnvironment(this.applicationContext.getEnvironment()));
+				((EnvironmentAware) bean)
+						.setEnvironment(new AutomockerEnvironment(this.applicationContext.getEnvironment()));
 			}
 			if (bean instanceof EmbeddedValueResolverAware) {
-				((EmbeddedValueResolverAware) bean).setEmbeddedValueResolver(new EmbeddedValueResolver(this.applicationContext.getBeanFactory()));
+				((EmbeddedValueResolverAware) bean).setEmbeddedValueResolver(
+						new EmbeddedValueResolver(this.applicationContext.getBeanFactory()));
 			}
 			if (bean instanceof ResourceLoaderAware) {
 				((ResourceLoaderAware) bean).setResourceLoader(this.applicationContext);

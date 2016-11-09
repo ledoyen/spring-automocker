@@ -22,13 +22,16 @@ public class JmsDestinationAssert {
 	}
 
 	public JmsDestinationAssert hasSize(int expected) {
-		Assertions.assertThat(destination.getReceivedMessageList().size()).isEqualTo(expected);
+		Assertions.assertThat(destination.getReceivedMessageList()
+				.size())
+				.isEqualTo(expected);
 		return this;
 	}
 
 	public JmsMessageAssert consumingFirstMessage() {
 		if (destination.isEmpty()) {
-			throw new IllegalArgumentException("No message available on destination [" + destinationName + "]");
+			throw new IllegalArgumentException(
+					"No message available on destination [" + destinationName + "]");
 		}
 		return new JmsMessageAssert(destination.getMessage());
 	}

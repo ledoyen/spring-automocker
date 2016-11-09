@@ -16,7 +16,8 @@ import org.springframework.beans.factory.InitializingBean;
 
 import com.github.ledoyen.automocker.Resettable;
 
-public class MockDataSourceFactory implements FactoryBean<DataSource>, BeanNameAware, InitializingBean, Resettable {
+public class MockDataSourceFactory
+		implements FactoryBean<DataSource>, BeanNameAware, InitializingBean, Resettable {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MockDataSourceFactory.class);
 
@@ -55,13 +56,15 @@ public class MockDataSourceFactory implements FactoryBean<DataSource>, BeanNameA
 		try (Connection c = instance.getConnection();
 				PreparedStatement ps = c.prepareStatement("SHOW TABLES");
 				ResultSet rs = ps.executeQuery();) {
-			Connections.tables(c).forEach(table -> {
-				try {
-					c.prepareStatement("TRUNCATE TABLE " + table).execute();
-				} catch (SQLException e) {
-					throw new IllegalStateException("Could not reset DB[" + beanName + "]");
-				}
-			});
+			Connections.tables(c)
+					.forEach(table -> {
+						try {
+							c.prepareStatement("TRUNCATE TABLE " + table)
+									.execute();
+						} catch (SQLException e) {
+							throw new IllegalStateException("Could not reset DB[" + beanName + "]");
+						}
+					});
 		} catch (SQLException e) {
 			throw new IllegalStateException("Could not reset DB[" + beanName + "]");
 		}
