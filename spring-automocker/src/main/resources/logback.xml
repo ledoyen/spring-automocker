@@ -14,6 +14,7 @@
 	<logger name="org.hibernate" level="WARN" />
 	<logger name="org.jboss.logging" level="WARN" />
 	<logger name="com.mockrunner" level="WARN" />
+	<logger name="com.jayway.jsonpath" level="WARN" />
 
 	<!-- Internal -->
 	<logger name="com.github.ledoyen.automocker.SpringAutomockerJUnit4ClassRunner" level="WARN" />
