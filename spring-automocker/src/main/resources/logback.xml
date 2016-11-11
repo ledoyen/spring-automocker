@@ -9,6 +9,8 @@
 
 
 	<logger name="org.springframework" level="WARN" />
+	<logger name="org.ehcache" level="WARN" />
+	<logger name="class org.ehcache" level="WARN" />
 	<logger name="org.hibernate" level="WARN" />
 	<logger name="org.jboss.logging" level="WARN" />
 	<logger name="com.mockrunner" level="WARN" />
