@@ -1,4 +1,4 @@
-package com.github.ledoyen.automocker.jms;
+package com.github.ledoyen.automocker.extension.jms;
 
 import javax.jms.ConnectionFactory;
 
@@ -7,7 +7,6 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.util.ErrorHandler;
 
 import com.github.ledoyen.automocker.internal.jms.ErrorHandlerMock;
-import com.github.ledoyen.automocker.jms.assertion.JmsDestinationAssert;
 import com.mockrunner.jms.DestinationManager;
 
 public final class JmsMock {

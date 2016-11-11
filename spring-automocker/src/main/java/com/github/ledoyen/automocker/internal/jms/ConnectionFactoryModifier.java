@@ -13,7 +13,7 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 
 import com.github.ledoyen.automocker.BeanDefinitionModifier;
 import com.github.ledoyen.automocker.configuration.Need;
-import com.github.ledoyen.automocker.jms.JmsMock;
+import com.github.ledoyen.automocker.extension.jms.JmsMock;
 import com.mockrunner.jms.ConfigurationManager;
 import com.mockrunner.jms.DestinationManager;
 import com.mockrunner.mock.jms.MockConnectionFactory;

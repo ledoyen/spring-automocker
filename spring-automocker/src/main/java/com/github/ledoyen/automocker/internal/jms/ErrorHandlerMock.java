@@ -11,7 +11,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.util.ErrorHandler;
 
 import com.github.ledoyen.automocker.Resettable;
-import com.github.ledoyen.automocker.jms.JmsMock;
+import com.github.ledoyen.automocker.extension.jms.JmsMock;
 
 public class ErrorHandlerMock implements ApplicationContextAware, InitializingBean, ErrorHandler, Resettable {
 

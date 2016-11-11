@@ -1,4 +1,4 @@
-package com.github.ledoyen.automocker.jms;
+package com.github.ledoyen.automocker.extension.jms;
 
 import java.io.Serializable;
 import java.util.HashMap;

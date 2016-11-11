@@ -14,8 +14,8 @@ import org.springframework.test.context.ContextConfiguration;
 
 import com.github.ledoyen.automocker.SpringAutomocker;
 import com.github.ledoyen.automocker.SpringAutomockerJUnit4ClassRunner;
-import com.github.ledoyen.automocker.jms.JmsMessageBuilder;
-import com.github.ledoyen.automocker.jms.JmsMock;
+import com.github.ledoyen.automocker.extension.jms.JmsMessageBuilder;
+import com.github.ledoyen.automocker.extension.jms.JmsMock;
 
 @RunWith(SpringAutomockerJUnit4ClassRunner.class)
 @ContextConfiguration(classes = JmsApplication.class)

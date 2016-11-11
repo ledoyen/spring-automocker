@@ -1,4 +1,4 @@
-package com.github.ledoyen.automocker.jms.assertion;
+package com.github.ledoyen.automocker.extension.jms;
 
 import org.assertj.core.api.Assertions;
 
