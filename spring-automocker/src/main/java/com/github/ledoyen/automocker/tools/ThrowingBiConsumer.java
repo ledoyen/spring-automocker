@@ -12,7 +12,7 @@ public interface ThrowingBiConsumer<T, U> {
 			try {
 				throwing.accept(t, u);
 			} catch (Exception e) {
-				throw new LamdaLuggageException(e);
+				throw LamdaLuggageException.wrap(e);
 			}
 		};
 	}

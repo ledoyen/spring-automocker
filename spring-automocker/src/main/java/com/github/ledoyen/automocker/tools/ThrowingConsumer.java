@@ -12,7 +12,7 @@ public interface ThrowingConsumer<T> {
 			try {
 				throwing.accept(t);
 			} catch (Exception e) {
-				throw new LamdaLuggageException(e);
+				throw LamdaLuggageException.wrap(e);
 			}
 		};
 	}

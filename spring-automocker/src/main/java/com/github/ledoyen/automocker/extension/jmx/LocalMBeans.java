@@ -36,10 +36,21 @@ public final class LocalMBeans {
 	private LocalMBeans() {
 	}
 
+	public Set<ObjectName> listAvailableObjectNames() {
+		return MBEAN_SERVER.queryNames(null, null);
+	}
+
+	public Map<String, Object> listAttributes(ObjectName name) {
+		try {
+			return extractAttributes(name, attributesByObjectNames.get(name));
+		} catch (ExecutionException e) {
+			throw new IllegalArgumentException(e.getCause());
+		}
+	}
+
 	public Map<String, Object> listAttributes(String name) {
 		try {
-			ObjectName on = objectNameByLiterals.get(name);
-			return extractAttributes(on, attributesByObjectNames.get(on));
+			return listAttributes(objectNameByLiterals.get(name));
 		} catch (ExecutionException e) {
 			throw new IllegalArgumentException(e.getCause());
 		}

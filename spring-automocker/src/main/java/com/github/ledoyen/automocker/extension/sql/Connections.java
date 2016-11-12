@@ -1,4 +1,4 @@
-package com.github.ledoyen.automocker.internal.sql;
+package com.github.ledoyen.automocker.extension.sql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,5 +19,13 @@ public class Connections {
 			throw new IllegalStateException("Unable to list tables", e);
 		}
 		return tables;
+	}
+
+	public static void truncate(Connection c, String tableName) {
+		try (PreparedStatement p = c.prepareStatement("TRUNCATE TABLE " + tableName)) {
+			p.execute();
+		} catch (SQLException e) {
+			throw new IllegalStateException("Could not truncate Table [" + tableName + "]");
+		}
 	}
 }

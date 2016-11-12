@@ -9,7 +9,7 @@ public interface ThrowingFunction<T, R> {
 
 	static <T, R> Function<T, R> silent(ThrowingFunction<T, R> throwing) {
 		return silent(throwing, e -> {
-			throw new LamdaLuggageException(e);
+			throw LamdaLuggageException.wrap(e);
 		});
 	}
 

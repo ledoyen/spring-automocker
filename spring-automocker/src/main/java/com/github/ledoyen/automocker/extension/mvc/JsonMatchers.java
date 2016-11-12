@@ -17,10 +17,9 @@ public final class JsonMatchers {
 			@Override
 			public boolean matches(Object item) {
 				if (item instanceof JSONArray && ((JSONArray) item).size() == 1) {
-					return ((JSONArray) item).get(0)
-							.equals(expected);
+					return expected.equals(String.valueOf(((JSONArray) item).get(0)));
 				} else {
-					return expected.equals(item);
+					return expected.equals(String.valueOf(item));
 				}
 			}
 
@@ -32,4 +31,5 @@ public final class JsonMatchers {
 			}
 		};
 	}
+
 }
