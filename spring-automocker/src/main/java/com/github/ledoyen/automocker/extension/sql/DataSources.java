@@ -20,6 +20,7 @@ public final class DataSources {
 		try (Connection c = datasource.getConnection()) {
 			ThrowingConsumer.silent(task)
 					.accept(c);
+			c.commit();
 		} catch (SQLException e) {
 			throw new IllegalStateException(e);
 		}

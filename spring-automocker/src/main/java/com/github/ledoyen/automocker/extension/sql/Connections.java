@@ -25,7 +25,7 @@ public class Connections {
 		try (PreparedStatement p = c.prepareStatement("TRUNCATE TABLE " + tableName)) {
 			p.execute();
 		} catch (SQLException e) {
-			throw new IllegalStateException("Could not truncate Table [" + tableName + "]");
+			throw new IllegalStateException("Could not truncate Table [" + tableName + "]", e);
 		}
 	}
 }
