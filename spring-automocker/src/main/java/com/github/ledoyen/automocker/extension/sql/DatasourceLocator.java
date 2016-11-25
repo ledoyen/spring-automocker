@@ -25,11 +25,30 @@ public class DatasourceLocator implements InitializingBean {
 		}
 	}
 
+	public DataSource getDataSource(String dsName) {
+		if (!datasourcesByName.containsKey(dsName)) {
+			throw new IllegalArgumentException(
+					"No datasource names [" + dsName + "] (availables: " + Joiner.on(", ")
+							.join(datasourcesByName.keySet()) + ")");
+		}
+		return datasourcesByName.get(dsName);
+	}
+
+	public String getName() {
+		if (datasourcesByName.size() == 1) {
+			return datasourcesByName.keySet()
+					.iterator()
+					.next();
+		} else {
+			throw new IllegalArgumentException("Multiple datasources available: " + Joiner.on(", ")
+					.join(datasourcesByName.keySet()));
+		}
+	}
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if (datasourcesByName.size() == 1) {
 
 		}
 	}
-
 }
