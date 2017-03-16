@@ -21,11 +21,36 @@ public class Connections {
 		return tables;
 	}
 
-	public static void truncate(Connection c, String tableName) {
-		try (PreparedStatement p = c.prepareStatement("TRUNCATE TABLE " + tableName)) {
+	public static void execute(Connection c, String statement) {
+		try (PreparedStatement p = c.prepareStatement(statement)) {
 			p.execute();
 		} catch (SQLException e) {
-			throw new IllegalStateException("Could not truncate Table [" + tableName + "]", e);
+			throw new IllegalStateException("Could not execute Statement [" + statement + "]", e);
 		}
 	}
+
+	public static void truncate(Connection c, String tableName) {
+		execute(c, "TRUNCATE TABLE " + tableName);
+	}
+
+	public static Object selectFirstLines(Connection c, String tableName, int maxLines) {
+		try (PreparedStatement p = c.prepareStatement("SELECT TOP " + maxLines + " * FROM " + tableName);
+				ResultSet rs = p.executeQuery()) {
+
+			int columns = rs.getMetaData()
+					.getColumnCount();
+			List<List<Object>> result = new ArrayList<>();
+			while (rs.next()) {
+				List<Object> line = new ArrayList<>();
+				for (int i = 1; i <= columns; i++) {
+					line.add(rs.getObject(i));
+				}
+				result.add(line);
+			}
+			return result;
+		} catch (SQLException e) {
+			throw new IllegalStateException("Could not select Table [" + tableName + "]", e);
+		}
+	}
+
 }
