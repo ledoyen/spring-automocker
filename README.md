@@ -1,4 +1,6 @@
 # Spring-Automocker
+[![Build status](https://ci.appveyor.com/api/projects/status/gm3oos59plasbipi/branch/master?svg=true)](https://ci.appveyor.com/project/ledoyen/spring-automocker/branch/master)
+
 Automatic IO mocking tool for Spring's JavaConfig.
 
 Load your entire Production configuration into a JUnit test.
