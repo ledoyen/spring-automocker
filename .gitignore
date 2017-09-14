@@ -7,6 +7,10 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 **/target/
+
 **/.settings/
 **/.project
 **/.classpath
+
+**/.idea/
+*.iml
