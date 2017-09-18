@@ -9,7 +9,7 @@ class MockPropertiesProtocolResolver implements ProtocolResolver {
 
     @Override
     public Resource resolve(String location, ResourceLoader resourceLoader) {
-        if(location.endsWith(".properties")) {
+        if (location.endsWith(".properties")) {
             return new ByteArrayResource(new byte[0]);
         } else {
             return null;

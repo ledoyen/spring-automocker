@@ -12,16 +12,16 @@ import com.github.ledoyen.automocker.examples.datajpa.repository.CustomerReposit
 @PropertySource("classpath:appli.properties")
 public class DataJpaApplication {
 
-	public static void main(String[] args) {
-		try (ConfigurableApplicationContext context = SpringApplication.run(DataJpaApplication.class, args)) {
-			CustomerRepository repository = context.getBean(CustomerRepository.class);
+    public static void main(String[] args) {
+        try (ConfigurableApplicationContext context = SpringApplication.run(DataJpaApplication.class, args)) {
+            CustomerRepository repository = context.getBean(CustomerRepository.class);
 
-			Customer cust1 = new Customer("Scarlett", "Johansson");
-			Customer cust2 = new Customer("Jessica", "Alba");
-			repository.save(cust1);
-			repository.save(cust2);
+            Customer cust1 = new Customer("Scarlett", "Johansson");
+            Customer cust2 = new Customer("Jessica", "Alba");
+            repository.save(cust1);
+            repository.save(cust2);
 
-			System.out.println(repository.findAll());
-		}
-	}
+            System.out.println(repository.findAll());
+        }
+    }
 }

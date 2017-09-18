@@ -23,7 +23,7 @@ import lombok.ToString;
 
 /**
  * Simple domain class representing an {@link Order}
- * 
+ *
  * @author Oliver Gierke
  */
 @Entity
@@ -35,38 +35,45 @@ import lombok.ToString;
 @Table(name = "SampleOrder")
 public class Order {
 
-	private @Id @GeneratedValue Long id;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) //
+    private final List<LineItem> lineItems = new ArrayList<LineItem>();
+    private final CustomerId customer;
+    private @Id
+    @GeneratedValue
+    Long id;
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) //
-	private final List<LineItem> lineItems = new ArrayList<LineItem>();
-	private final CustomerId customer;
+    Order() {
+        this.customer = null;
+    }
 
-	Order() {
-		this.customer = null;
-	}
+    /**
+     * Adds a {@link LineItem} to the {@link Order}.
+     *
+     * @param lineItem must not be {@literal null}.
+     */
+    public void add(LineItem lineItem) {
 
-	/**
-	 * Adds a {@link LineItem} to the {@link Order}.
-	 * 
-	 * @param lineItem must not be {@literal null}.
-	 */
-	public void add(LineItem lineItem) {
+        Assert.notNull(lineItem, "Line item must not be null!");
 
-		Assert.notNull(lineItem, "Line item must not be null!");
+        this.lineItems.add(lineItem);
+    }
 
-		this.lineItems.add(lineItem);
-	}
+    public List<LineItem> getLineItems() {
+        return lineItems;
+    }
 
-	@Entity
-	@EqualsAndHashCode(of = "id")
-	@Getter
-	@NoArgsConstructor
-	@AllArgsConstructor
-	@ToString
-	@Table(name = "LineItem")
-	public static class LineItem {
+    @Entity
+    @EqualsAndHashCode(of = "id")
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
+    @Table(name = "LineItem")
+    public static class LineItem {
 
-		private @Id @GeneratedValue Long id;
-		private String description;
-	}
+        private @Id
+        @GeneratedValue
+        Long id;
+        private String description;
+    }
 }

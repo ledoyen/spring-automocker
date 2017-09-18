@@ -25,35 +25,35 @@ import org.springframework.transaction.PlatformTransactionManager;
 @EnableJpaRepositories(entityManagerFactoryRef = "customerEntityManagerFactory", transactionManagerRef = "customerTransactionManager")
 class CustomerConfig {
 
-	@Bean
-	PlatformTransactionManager customerTransactionManager() {
-		return new JpaTransactionManager(customerEntityManagerFactory().getObject());
-	}
+    @Bean
+    PlatformTransactionManager customerTransactionManager() {
+        return new JpaTransactionManager(customerEntityManagerFactory().getObject());
+    }
 
-	@Bean
-	LocalContainerEntityManagerFactoryBean customerEntityManagerFactory() {
+    @Bean
+    LocalContainerEntityManagerFactoryBean customerEntityManagerFactory() {
 
-		HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
-		jpaVendorAdapter.setGenerateDdl(true);
+        HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
+        jpaVendorAdapter.setGenerateDdl(true);
 
-		LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
 
-		factoryBean.setDataSource(customerDataSource());
-		factoryBean.setJpaVendorAdapter(jpaVendorAdapter);
-		factoryBean.setPackagesToScan(CustomerConfig.class.getPackage()
-				.getName());
+        factoryBean.setDataSource(customerDataSource());
+        factoryBean.setJpaVendorAdapter(jpaVendorAdapter);
+        factoryBean.setPackagesToScan(CustomerConfig.class.getPackage()
+                .getName());
 
-		return factoryBean;
-	}
+        return factoryBean;
+    }
 
-	@Bean
-	DataSource customerDataSource() {
+    @Bean
+    DataSource customerDataSource() {
 
-		return new EmbeddedDatabaseBuilder().//
-				setType(EmbeddedDatabaseType.HSQL)
-				.//
-				setName("customers")
-				.//
-				build();
-	}
+        return new EmbeddedDatabaseBuilder().//
+                setType(EmbeddedDatabaseType.HSQL)
+                .//
+                setName("customers")
+                .//
+                build();
+    }
 }

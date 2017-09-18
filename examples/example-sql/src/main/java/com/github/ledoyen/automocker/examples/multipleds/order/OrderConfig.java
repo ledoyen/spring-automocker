@@ -25,35 +25,35 @@ import org.springframework.transaction.PlatformTransactionManager;
 @EnableJpaRepositories(entityManagerFactoryRef = "orderEntityManagerFactory", transactionManagerRef = "orderTransactionManager")
 class OrderConfig {
 
-	@Bean
-	PlatformTransactionManager orderTransactionManager() {
-		return new JpaTransactionManager(orderEntityManagerFactory().getObject());
-	}
+    @Bean
+    PlatformTransactionManager orderTransactionManager() {
+        return new JpaTransactionManager(orderEntityManagerFactory().getObject());
+    }
 
-	@Bean
-	LocalContainerEntityManagerFactoryBean orderEntityManagerFactory() {
+    @Bean
+    LocalContainerEntityManagerFactoryBean orderEntityManagerFactory() {
 
-		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-		vendorAdapter.setGenerateDdl(true);
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setGenerateDdl(true);
 
-		LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
 
-		factoryBean.setDataSource(orderDataSource());
-		factoryBean.setJpaVendorAdapter(vendorAdapter);
-		factoryBean.setPackagesToScan(OrderConfig.class.getPackage()
-				.getName());
+        factoryBean.setDataSource(orderDataSource());
+        factoryBean.setJpaVendorAdapter(vendorAdapter);
+        factoryBean.setPackagesToScan(OrderConfig.class.getPackage()
+                .getName());
 
-		return factoryBean;
-	}
+        return factoryBean;
+    }
 
-	@Bean
-	DataSource orderDataSource() {
+    @Bean
+    DataSource orderDataSource() {
 
-		return new EmbeddedDatabaseBuilder().//
-				setType(EmbeddedDatabaseType.HSQL)
-				.//
-				setName("orders")
-				.//
-				build();
-	}
+        return new EmbeddedDatabaseBuilder().//
+                setType(EmbeddedDatabaseType.HSQL)
+                .//
+                setName("orders")
+                .//
+                build();
+    }
 }

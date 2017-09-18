@@ -13,25 +13,25 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration
-@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class,
-		DataSourceTransactionManagerAutoConfiguration.class })
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class,
+        DataSourceTransactionManagerAutoConfiguration.class})
 @ComponentScan
 @PropertySource("classpath:appli.properties")
 public class SimpleApplication {
 
-	@Bean
-	public static PropertySourcesPlaceholderConfigurer configurer() {
-		PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
-		// Necessary to properly inject java.util.Optional values
-		configurer.setNullValue("");
-		return configurer;
-	}
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer configurer() {
+        PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
+        // Necessary to properly inject java.util.Optional values
+        configurer.setNullValue("");
+        return configurer;
+    }
 
-	public static void main(String[] args) {
-		try (ConfigurableApplicationContext context = SpringApplication.run(SimpleApplication.class, args)) {
-			TextService service = context.getBean(TextService.class);
+    public static void main(String[] args) {
+        try (ConfigurableApplicationContext context = SpringApplication.run(SimpleApplication.class, args)) {
+            TextService service = context.getBean(TextService.class);
 
-			System.out.println(service.getTextFromFile());
-		}
-	}
+            System.out.println(service.getLiteralText());
+        }
+    }
 }

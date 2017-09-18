@@ -9,7 +9,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.test.context.ContextCustomizer;
 import org.springframework.test.context.MergedContextConfiguration;
 
-class AutomockerContextCustomizer implements ContextCustomizer  {
+class AutomockerContextCustomizer implements ContextCustomizer {
 
     private final Class<?> testClass;
 

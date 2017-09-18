@@ -26,45 +26,47 @@ import lombok.RequiredArgsConstructor;
  * <p>
  * Also, not that one cannot interact with both databases in a single, transactional method as transactions are thread bound in Spring an thus only a
  * single transaction can be active in a single thread. See {@link MultipleDatasourcesApplication#init()} for how to orchestrate the calls.
- * 
+ *
  * @author Oliver Gierke
  */
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DataInitializer {
 
-	private final @NonNull OrderRepository orders;
-	private final @NonNull CustomerRepository customers;
+    private final @NonNull
+    OrderRepository orders;
+    private final @NonNull
+    CustomerRepository customers;
 
-	/**
-	 * Initializes a {@link Customer}.
-	 * 
-	 * @return
-	 */
-	@Transactional("customerTransactionManager")
-	public CustomerId initializeCustomer() {
-		return customers.save(new Customer("Dave", "Matthews"))
-				.getId();
-	}
+    /**
+     * Initializes a {@link Customer}.
+     *
+     * @return
+     */
+    @Transactional("customerTransactionManager")
+    public CustomerId initializeCustomer() {
+        return customers.save(new Customer("Dave", "Matthews"))
+                .getId();
+    }
 
-	/**
-	 * Initializes an {@link Order}.
-	 * 
-	 * @param customer must not be {@literal null}.
-	 * @return
-	 */
-	@Transactional("orderTransactionManager")
-	public void initializeOrder(CustomerId customer) {
+    /**
+     * Initializes an {@link Order}.
+     *
+     * @param customer must not be {@literal null}.
+     * @return
+     */
+    @Transactional("orderTransactionManager")
+    public void initializeOrder(CustomerId customer) {
 
-		Assert.notNull(customer, "Customer identifier must not be null!");
+        Assert.notNull(customer, "Customer identifier must not be null!");
 
-		Order order1 = new Order(customer);
-		order1.add(new LineItem(null, "Fender Jag-Stang Guitar"));
-		orders.save(order1);
+        Order order1 = new Order(customer);
+        order1.add(new LineItem(null, "Fender Jag-Stang Guitar"));
+        orders.save(order1);
 
-		Order order2 = new Order(customer);
-		order2.add(new LineItem(null, "Gene Simmons Axe Bass"));
-		orders.save(order2);
+        Order order2 = new Order(customer);
+        order2.add(new LineItem(null, "Gene Simmons Axe Bass"));
+        orders.save(order2);
 
-	}
+    }
 }

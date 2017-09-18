@@ -23,33 +23,34 @@ import org.springframework.util.FileSystemUtils;
 @EnableJms
 public class JmsApplication {
 
-	@Bean // Strictly speaking this bean is not necessary as boot creates a default
-	JmsListenerContainerFactory<?> jmsListenerContainerFactory(ConnectionFactory connectionFactory,
-			JmsErrorHandler errorHandler) {
-		SimpleJmsListenerContainerFactory factory = new SimpleJmsListenerContainerFactory();
-		factory.setConnectionFactory(connectionFactory);
-		factory.setErrorHandler(errorHandler);
-		return factory;
-	}
+    public static void main(String[] args) {
+        // Clean out any ActiveMQ data from a previous run
+        FileSystemUtils.deleteRecursively(new File("activemq-data"));
 
-	public static void main(String[] args) {
-		// Clean out any ActiveMQ data from a previous run
-		FileSystemUtils.deleteRecursively(new File("activemq-data"));
+        ConfigurableApplicationContext context = SpringApplication.run(JmsApplication.class, args);
 
-		ConfigurableApplicationContext context = SpringApplication.run(JmsApplication.class, args);
+        // Send a message
+        MessageCreator messageCreator = new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                TextMessage message = session.createTextMessage("startMessage");
+                message.setStringProperty("reply-to", "response-destination");
+                return message;
+            }
+        };
+        JmsTemplate jmsTemplate = context.getBean(JmsTemplate.class);
+        System.out.println("Sending a new message.");
+        jmsTemplate.send("echo-service", messageCreator);
+    }
 
-		// Send a message
-		MessageCreator messageCreator = new MessageCreator() {
-			@Override
-			public Message createMessage(Session session) throws JMSException {
-				TextMessage message = session.createTextMessage("startMessage");
-				message.setStringProperty("reply-to", "response-destination");
-				return message;
-			}
-		};
-		JmsTemplate jmsTemplate = context.getBean(JmsTemplate.class);
-		System.out.println("Sending a new message.");
-		jmsTemplate.send("echo-service", messageCreator);
-	}
+    @Bean
+        // Strictly speaking this bean is not necessary as boot creates a default
+    JmsListenerContainerFactory<?> jmsListenerContainerFactory(ConnectionFactory connectionFactory,
+                                                               JmsErrorHandler errorHandler) {
+        SimpleJmsListenerContainerFactory factory = new SimpleJmsListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setErrorHandler(errorHandler);
+        return factory;
+    }
 
 }

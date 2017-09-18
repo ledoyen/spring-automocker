@@ -15,20 +15,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class HardCoreJmsEchoService {
 
-	@Autowired
-	private JmsTemplate jmsTemplate;
+    @Autowired
+    private JmsTemplate jmsTemplate;
 
-	@JmsListener(destination = "hardcore-echo-service", containerFactory = "jmsListenerContainerFactory")
-	public void receiveMessage(@Payload String message, @Header(name = "reply-to") String replyTo) {
-		System.out.println("Received <" + message + ">");
+    @JmsListener(destination = "hardcore-echo-service", containerFactory = "jmsListenerContainerFactory")
+    public void receiveMessage(@Payload String message, @Header(name = "reply-to") String replyTo) {
+        System.out.println("Received <" + message + ">");
 
-		MessageCreator messageCreator = new MessageCreator() {
-			@Override
-			public Message createMessage(Session session) throws JMSException {
-				return session.createTextMessage(message);
-			}
-		};
-		System.out.println("Sending a new message.");
-		jmsTemplate.send(replyTo, messageCreator);
-	}
+        MessageCreator messageCreator = new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                return session.createTextMessage(message);
+            }
+        };
+        System.out.println("Sending a new message.");
+        jmsTemplate.send(replyTo, messageCreator);
+    }
 }
