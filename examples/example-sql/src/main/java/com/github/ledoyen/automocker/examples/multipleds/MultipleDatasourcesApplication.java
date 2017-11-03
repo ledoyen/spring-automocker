@@ -20,26 +20,26 @@ import com.github.ledoyen.automocker.examples.multipleds.customer.Customer.Custo
  * <p>
  * {@link DevToolsDataSourceAutoConfiguration} is explicitly excluded until {@link https://github.com/spring-projects/spring-boot/issues/5540} is
  * fixed. {@link https://github.com/spring-projects/spring-boot/issues/5541} has been filed to improve the need for manual exclusions in general.
- * 
+ *
  * @author Oliver Gierke
  * @see example.springdata.jpa.multipleds.customer.CustomerConfig
  * @see example.springdata.jpa.multipleds.order.OrderConfig
  */
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class,
-		DataSourceTransactionManagerAutoConfiguration.class })
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class,
+        DataSourceTransactionManagerAutoConfiguration.class})
 @EnableTransactionManagement
 public class MultipleDatasourcesApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MultipleDatasourcesApplication.class, args);
-	}
+    @Autowired
+    DataInitializer initializer;
 
-	@Autowired
-	DataInitializer initializer;
+    public static void main(String[] args) {
+        SpringApplication.run(MultipleDatasourcesApplication.class, args);
+    }
 
-	@PostConstruct
-	public void init() {
-		CustomerId customerId = initializer.initializeCustomer();
-		initializer.initializeOrder(customerId);
-	}
+    @PostConstruct
+    public void init() {
+        CustomerId customerId = initializer.initializeCustomer();
+        initializer.initializeOrder(customerId);
+    }
 }

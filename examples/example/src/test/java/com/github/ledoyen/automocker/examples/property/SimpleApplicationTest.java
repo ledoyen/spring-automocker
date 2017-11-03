@@ -10,28 +10,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.github.ledoyen.automocker.SpringAutomocker;
-import com.github.ledoyen.automocker.SpringAutomockerJUnit4ClassRunner;
+import com.github.ledoyen.automocker.base.MockPropertySources;
 
-@SpringAutomocker
+@MockPropertySources
 @ContextConfiguration(classes = SimpleApplication.class)
-@RunWith(SpringAutomockerJUnit4ClassRunner.class)
-@TestPropertySource(properties = { "text.file/content = somecontent", "text.literal = literal Test Text",
-		"text.optional=optionalText" })
+@RunWith(SpringJUnit4ClassRunner.class)
+@TestPropertySource(properties = {"text.literal = literal Test Text",
+        "text.optional=optionalText"})
 public class SimpleApplicationTest {
 
-	@Autowired
-	private TextService service;
+    @Autowired
+    private TextService service;
 
-	@Value("${missing.key:}")
-	private Optional<String> emptyOptional;
+    @Value("${missing.key:}")
+    private Optional<String> emptyOptional;
 
-	@Test
-	public void test() {
-		assertThat(service.getTextFromFile()).isEqualTo("somecontent");
-		assertThat(service.getLiteralText()).isEqualTo("literal Test Text");
-		assertThat(service.getOptionalText()).isEqualTo("optionalText");
-		assertThat(emptyOptional).isEmpty();
-	}
+    @Test
+    public void test() {
+        assertThat(service.getLiteralText()).isEqualTo("literal Test Text");
+        assertThat(service.getOptionalText()).isEqualTo("optionalText");
+        assertThat(emptyOptional).isEmpty();
+    }
 }

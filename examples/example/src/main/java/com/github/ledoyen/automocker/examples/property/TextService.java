@@ -1,39 +1,29 @@
 package com.github.ledoyen.automocker.examples.property;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TextService {
+class TextService {
 
-	@Value("${text.file}")
-	private Resource textFile;
+    private final String literalText;
+    private final Optional<String> optionalText;
 
-	@Value("${text.literal}")
-	private String literalText;
+    TextService(@Value("${text.literal}")
+                        String literalText, @Value("${text.optional:}")
+                        Optional<String> optionalText) {
+        this.literalText = literalText;
+        this.optionalText = optionalText;
+    }
 
-	@Value("${text.optional:}")
-	private Optional<String> optionalText;
 
-	public String getTextFromFile() {
-		try {
-			return IOUtils.toString(textFile.getInputStream(), StandardCharsets.UTF_8);
-		} catch (IOException e) {
-			throw new IllegalStateException("Text file cannot be read", e);
-		}
-	}
+    public String getLiteralText() {
+        return literalText;
+    }
 
-	public String getLiteralText() {
-		return literalText;
-	}
-
-	public String getOptionalText() {
-		return optionalText.get();
-	}
+    public String getOptionalText() {
+        return optionalText.get();
+    }
 }

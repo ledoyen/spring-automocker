@@ -6,10 +6,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class SimpleJmsEchoService {
 
-	@JmsListener(destination = "simple-echo-service", containerFactory = "jmsListenerContainerFactory")
-	public String receiveMessage(String message) {
-		System.out.println("Received <" + message + ">");
-		System.out.println("Sending back the payload.");
-		return message;
-	}
+    @JmsListener(destination = "simple-echo-service", containerFactory = "jmsListenerContainerFactory")
+    public String receiveMessage(String message) {
+        System.out.println("Received <" + message + ">");
+        System.out.println("Sending back the payload.");
+        return message;
+    }
 }

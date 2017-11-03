@@ -15,7 +15,7 @@ import lombok.Value;
 
 /**
  * Simple domain class representing a {@link Customer}.
- * 
+ *
  * @author Oliver Gierke
  */
 @Entity
@@ -25,28 +25,30 @@ import lombok.Value;
 @ToString
 public class Customer {
 
-	private @Id @GeneratedValue Long id;
-	private final String firstname, lastname;
+    private final String firstname, lastname;
+    private @Id
+    @GeneratedValue
+    Long id;
 
-	Customer() {
-		this.firstname = null;
-		this.lastname = null;
-	}
+    Customer() {
+        this.firstname = null;
+        this.lastname = null;
+    }
 
-	public CustomerId getId() {
-		return new CustomerId(id);
-	}
+    public CustomerId getId() {
+        return new CustomerId(id);
+    }
 
-	@Value
-	@Embeddable
-	@RequiredArgsConstructor
-	@SuppressWarnings("serial")
-	public static class CustomerId implements Serializable {
+    @Value
+    @Embeddable
+    @RequiredArgsConstructor
+    @SuppressWarnings("serial")
+    public static class CustomerId implements Serializable {
 
-		private final Long customerId;
+        private final Long customerId;
 
-		CustomerId() {
-			this.customerId = null;
-		}
-	}
+        CustomerId() {
+            this.customerId = null;
+        }
+    }
 }

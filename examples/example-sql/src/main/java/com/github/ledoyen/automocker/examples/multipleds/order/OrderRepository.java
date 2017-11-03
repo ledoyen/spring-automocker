@@ -8,16 +8,16 @@ import com.github.ledoyen.automocker.examples.multipleds.customer.Customer.Custo
 
 /**
  * Spring Data repository managing {@link Order}s.
- * 
+ *
  * @author Oliver Gierke
  */
 public interface OrderRepository extends CrudRepository<Order, Long> {
 
-	/**
-	 * Returns all {@link Order}s for the {@link Customer} with the given identifier.
-	 * 
-	 * @param id must not be {@literal null}.
-	 * @return
-	 */
-	List<Order> findByCustomer(CustomerId id);
+    /**
+     * Returns all {@link Order}s for the {@link Customer} with the given identifier.
+     *
+     * @param id must not be {@literal null}.
+     * @return
+     */
+    List<Order> findByCustomer(CustomerId id);
 }

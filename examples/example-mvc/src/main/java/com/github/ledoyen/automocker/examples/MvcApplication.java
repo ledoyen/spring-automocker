@@ -22,35 +22,35 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MvcApplication {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(MvcApplication.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MvcApplication.class);
 
-	private final Map<Integer, Customer> database = new LinkedHashMap<>();
-	private final AtomicInteger sequenceGenerator = new AtomicInteger();
+    private final Map<Integer, Customer> database = new LinkedHashMap<>();
+    private final AtomicInteger sequenceGenerator = new AtomicInteger();
 
-	public static void main(String[] args) {
-		SpringApplication.run(MvcApplication.class);
-	}
+    public MvcApplication() {
+        LOGGER.info("Initiating web server");
+    }
 
-	public MvcApplication() {
-		LOGGER.info("Initiating web server");
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MvcApplication.class);
+    }
 
-	@RequestMapping("/create_user")
-	String createUser(@RequestParam("firstName") String firstName,
-			@RequestParam("lastName") String lastName) {
-		int id = sequenceGenerator.incrementAndGet();
-		database.put(id, new Customer(firstName, lastName));
-		return "User saved : id=" + id;
-	}
+    @RequestMapping("/create_user")
+    String createUser(@RequestParam("firstName") String firstName,
+                      @RequestParam("lastName") String lastName) {
+        int id = sequenceGenerator.incrementAndGet();
+        database.put(id, new Customer(firstName, lastName));
+        return "User saved : id=" + id;
+    }
 
-	@RequestMapping("/list_users")
-	List<String> listUsers() {
-		return database.entrySet()
-				.stream()
-				.map(e -> e.getValue()
-						.getFirstName() + " "
-						+ e.getValue()
-								.getLastName())
-				.collect(Collectors.toList());
-	}
+    @RequestMapping("/list_users")
+    List<String> listUsers() {
+        return database.entrySet()
+                .stream()
+                .map(e -> e.getValue()
+                        .getFirstName() + " "
+                        + e.getValue()
+                        .getLastName())
+                .collect(Collectors.toList());
+    }
 }
