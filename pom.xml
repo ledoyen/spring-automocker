@@ -24,6 +24,7 @@
         <module>examples/example-sql</module>
         <module>examples/example-mvc</module>
         <module>examples/example-jms</module>
+        <module>examples/example-rabbit</module>
     </modules>
 
     <scm>

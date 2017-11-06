@@ -20,6 +20,7 @@ import com.github.ledoyen.automocker.api.ResetMocks;
 @MockSpringWeb
 @MockJms
 @MockBatch
+@MockRabbitMq
 
 @ResetMocks
 public @interface Automocker {

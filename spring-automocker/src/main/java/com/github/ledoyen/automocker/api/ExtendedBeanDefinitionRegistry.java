@@ -35,6 +35,13 @@ public interface ExtendedBeanDefinitionRegistry {
             this.beanDefinition = beanDefinition;
         }
 
+        public BeanDefinitionModifier reset() {
+            setFactoryBeanName(null);
+            setFactoryMethodName(null);
+            removeConstructorArgumentValues();
+            removePropertyValues();
+            return this;
+        }
         public BeanDefinitionModifier setFactoryBeanName(String factoryBeanName) {
             beanDefinition.setFactoryBeanName(factoryBeanName);
             return this;
